@@ -171,7 +171,10 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('customer')
-                      .where('Search Index', arrayContains: _searchController)
+                      .startAt([_searchController])
+                      .endAt([_searchController + '\uf8ff'])
+                      .orderBy('Nama')
+                      // .where('Search Index', arrayContains: _searchController)
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -197,6 +200,18 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                         ),
                       );
                     }
+                    var len = snapshot.data.docs.length;
+                    if (len == 0)
+                      return Column(
+                        children: [
+                          SizedBox(height: 100),
+                          Center(
+                            child: Text("No shops available",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.grey)),
+                          )
+                        ],
+                      );
                     return ListView(
                       physics: BouncingScrollPhysics(),
                       children: snapshot.data.docs.map((document) {

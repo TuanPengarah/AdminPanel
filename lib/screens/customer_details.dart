@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_letter/avatar_letter.dart';
+import 'package:services_form/widget/buttom_edit_customer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomerDetails extends StatefulWidget {
   final nama;
@@ -31,10 +33,57 @@ class CustomerDetails extends StatefulWidget {
 }
 
 class _CustomerDetailsState extends State<CustomerDetails> {
+  _launchCaller() async {
+    final url = "tel:${widget.phone}";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _launchEmail() async {
+    final url =
+        "mailto:${widget.email}?subject=Pemberitahuan daripada Af-fix&body=Salam ${widget.nama},";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _launchSms() async {
+    final url = "sms:${widget.phone}";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void handleClick(String value) {
+    switch (value) {
+      case 'Edit':
+        Editdb(
+          name: widget.nama,
+          phone: widget.phone,
+          email: widget.email,
+        ).showEditdb(context);
+        break;
+      case 'Buang':
+        FirebaseFirestore.instance
+            .collection('customer')
+            .doc(widget.id)
+            .delete();
+        Navigator.pop(context);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -62,20 +111,35 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                       color: Colors.white,
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.delete_rounded,
+                  PopupMenuButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                      ),
                       color: Colors.white,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      FirebaseFirestore.instance
-                          .collection('customer')
-                          .doc(widget.id)
-                          .delete();
-                      Navigator.pop(context);
-                    },
-                  ),
+                      onSelected: handleClick,
+                      itemBuilder: (BuildContext context) {
+                        return {'Edit', 'Buang'}.map((String choice) {
+                          return PopupMenuItem<String>(
+                            value: choice,
+                            child: Text(choice),
+                          );
+                        }).toList();
+                      })
+                  // IconButton(
+                  //   icon: Icon(
+                  //     Icons.app_registration,
+                  //     color: Colors.white,
+                  //     size: 30,
+                  //   ),
+                  //   onPressed: () {
+                  //     // FirebaseFirestore.instance
+                  //     //     .collection('customer')
+                  //     //     .doc(widget.id)
+                  //     //     .delete();
+                  //     // Navigator.pop(context);
+                  //   },
+                  // ),
                 ],
               ),
               Center(
@@ -104,20 +168,72 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                           child: Hero(
                             tag: widget.nama,
                             child: AvatarLetter(
-                                size: 280,
-                                letterType: LetterType.Circular,
-                                text: widget.nama,
-                                fontSize: 160,
-                                numberLetters: 2,
-                                textColor: Colors.white,
-                                textColorHex: null,
-                                backgroundColor: null,
-                                backgroundColorHex: 'FFD2D2D2'),
+                              size: 280,
+                              letterType: LetterType.Circular,
+                              text: widget.nama,
+                              fontSize: 160,
+                              numberLetters: 2,
+                              textColor: Colors.white,
+                              textColorHex: null,
+                              backgroundColor: Colors.blueGrey,
+                              backgroundColorHex: null,
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(
                         height: 25,
+                      ),
+                      Center(child: Text('Hold pressed to see details')),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.phone,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              _launchCaller();
+                            },
+                            tooltip: 'No telefon: ${widget.phone}',
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.message,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              _launchSms();
+                            },
+                            tooltip: 'Sms: ${widget.phone}',
+                          ),
+                          IconButton(
+                            hoverColor: Colors.blueGrey,
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              _launchEmail();
+                            },
+                            tooltip: 'Email: ${widget.email}',
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {},
+                            tooltip: 'Tambah Jobsheet baru untuk customer ini',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 18.0),
@@ -143,7 +259,28 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         ),
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 30,
+                      ),
+                      Divider(
+                        indent: 20,
+                        endIndent: 20,
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(
+                          'Repair History',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 22,
                       ),
                     ],
                   ),

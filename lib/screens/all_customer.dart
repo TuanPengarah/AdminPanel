@@ -118,7 +118,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                                   phone: document['No Phone'],
                                   model: document['Harga'],
                                   id: document.id,
-                                  price: document['Password'],
+                                  price: document['Search Index'],
                                   email: document['Email'],
                                   remarks: document['Remarks'],
                                   password: document['Password'],

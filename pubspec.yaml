@@ -39,6 +39,8 @@ dependencies:
   firebase_core :
   native_contact_picker: ^0.0.6
   avatar_letter: ^1.0.1
+  url_launcher: ^5.7.10
+  flutter_open_whatsapp: ^0.1.2
 
 dev_dependencies:
   flutter_test:

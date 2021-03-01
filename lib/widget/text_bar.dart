@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TextBar extends StatelessWidget {
-  TextBar(
-      {@required this.hintTitle,
-      @required this.valueChange,
-      @required this.keyType,
-      this.controll,
-      this.err,
-      this.max});
+  TextBar({
+    @required this.hintTitle,
+    @required this.valueChange,
+    @required this.keyType,
+    this.controll,
+    this.err,
+    this.max,
+    this.hintEdit,
+  });
 
   final String hintTitle;
   final Function valueChange;
@@ -15,6 +17,7 @@ class TextBar extends StatelessWidget {
   final String err;
   final TextEditingController controll;
   final int max;
+  final String hintEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class TextBar extends StatelessWidget {
         onChanged: valueChange,
         // textAlign: TextAlign.center,
         decoration: InputDecoration(
+          hintText: hintEdit,
           errorText: err,
           labelText: hintTitle,
           focusedErrorBorder: OutlineInputBorder(

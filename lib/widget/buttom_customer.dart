@@ -4,7 +4,10 @@ buttomCustomerSheet(context) {
   showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
       builder: (BuildContext c) {
         return Wrap(

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:services_form/screens/add_sparepart.dart';
 import 'package:services_form/screens/all_customer.dart';
 import 'package:services_form/screens/home_screen.dart';
 import 'package:services_form/screens/job_sheet.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
                 'jobsheet': (context) => JobSheet(),
                 'spareparts': (context) => DatabaseSpareparts(),
                 'allcustomer': (context) => CustomerDatabase(),
+                'addsparepart': (context) => AddSparepart(),
               },
             );
           },

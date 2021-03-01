@@ -5,10 +5,9 @@ import 'package:services_form/widget/text_bar.dart';
 import 'print.dart';
 import 'dart:math';
 import 'package:double_back_to_close/double_back_to_close.dart';
-// import 'package:firebase_database/firebase_database.dart';
-import 'package:services_form/brain/spareparts_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:native_contact_picker/native_contact_picker.dart';
+import 'package:intl/intl.dart';
 
 final nama = TextEditingController();
 final phone = TextEditingController();
@@ -18,17 +17,24 @@ final damage = TextEditingController();
 final angg = TextEditingController();
 final remarks = TextEditingController();
 final email = TextEditingController();
-BioDatabase bio;
-/////////////////////////--UID--/////////////////
+/////////////////////////--MyRepairID--/////////////////
 int uid = 00000;
 void randomize() {
   uid = Random().nextInt(999999 - 100000);
+}
+
+//generate untuk tarikh baru
+tarikh() {
+  var now = new DateTime.now();
+  var formatter = new DateFormat('dd-MM-yyyy');
+  return formatter.format(now);
 }
 
 //realtime database(not firestore database)
 // final FirebaseDatabase database = FirebaseDatabase.instance;
 // DatabaseReference databaseReference;
 addData() {
+  String _tarikh = tarikh().toString();
   List<String> splitList = nama.text.split(" ");
 
   List<String> indexList = [];
@@ -37,6 +43,7 @@ addData() {
       indexList.add(splitList[i].substring(0, y).toLowerCase());
   }
   Map<String, dynamic> userData = {
+    'Tarikh': '$_tarikh',
     'Nama': '${nama.text}',
     'No Phone': '${phone.text}',
     'Model': '${model.text}',
@@ -67,7 +74,6 @@ class _JobSheetState extends State<JobSheet> {
   bool phonemiss = false;
   bool modelmiss = false;
 
-  List<BioDatabase> bioList;
   final NativeContactPicker _contactPicker = new NativeContactPicker();
   Contact _contact;
 
@@ -98,7 +104,6 @@ class _JobSheetState extends State<JobSheet> {
     // databaseReference.onChildChanged.listen(_onEntryChanged);
     super.initState();
   }
-
   // void _onEntryAdded(Event event) async {
   //   setState(() {
   //     bioList.add(BioDatabase.fromSnapshot((event.snapshot)));
@@ -197,6 +202,7 @@ class _JobSheetState extends State<JobSheet> {
                   child: ListView(
                     children: [
                       TextBar(
+                        focus: false,
                         controll: nama,
                         err: namamiss ? 'Sila masukkan nama customer' : null,
                         hintTitle: 'Nama Customer',
@@ -208,6 +214,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.name,
                       ),
                       TextBar(
+                        focus: false,
                         controll: phone,
                         err: phonemiss
                             ? 'Sila masukkan nombor telefon customer'
@@ -217,12 +224,14 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.phone,
                       ),
                       TextBar(
+                        focus: false,
                         controll: email,
                         hintTitle: 'Email *Optional',
                         valueChange: (emailv) {},
                         keyType: TextInputType.emailAddress,
                       ),
                       TextBar(
+                        focus: false,
                         controll: model,
                         err: modelmiss
                             ? 'Sila masukkan model phone customer'
@@ -236,12 +245,14 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.text,
                       ),
                       TextBar(
+                        focus: false,
                         controll: pass,
                         hintTitle: 'Password Smartphone',
                         valueChange: (passv) {},
                         keyType: TextInputType.text,
                       ),
                       TextBar(
+                        focus: false,
                         controll: damage,
                         hintTitle: 'Kerosakkan',
                         max: 3,
@@ -253,12 +264,14 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.multiline,
                       ),
                       TextBar(
+                        focus: false,
                         controll: angg,
                         hintTitle: 'Anggaran harga',
                         valueChange: (pricev) {},
                         keyType: TextInputType.number,
                       ),
                       TextBar(
+                        focus: false,
                         controll: remarks,
                         hintTitle: '*Remarks',
                         max: 5,

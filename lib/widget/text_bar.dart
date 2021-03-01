@@ -9,6 +9,7 @@ class TextBar extends StatelessWidget {
     this.err,
     this.max,
     this.hintEdit,
+    @required this.focus,
   });
 
   final String hintTitle;
@@ -18,6 +19,7 @@ class TextBar extends StatelessWidget {
   final TextEditingController controll;
   final int max;
   final String hintEdit;
+  final bool focus;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class TextBar extends StatelessWidget {
       child: TextField(
         controller: controll,
         maxLines: max,
+        autofocus: focus,
         keyboardType: keyType,
         onChanged: valueChange,
         // textAlign: TextAlign.center,

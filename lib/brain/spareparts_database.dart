@@ -1,48 +1,32 @@
 import 'package:firebase_database/firebase_database.dart';
 
-class BioDatabase {
+class DatabaseSparepart {
   String key;
-  String name;
-  String num;
-  String email;
-  String model;
-  String pass;
-  String dmg;
-  String price;
-  String remarks;
+  String sparepart;
+  String type;
+  String supplier;
+  String date;
 
-  BioDatabase(
-      {this.name,
-      this.num,
-      this.email,
-      this.model,
-      this.pass,
-      this.dmg,
-      this.price,
-      this.remarks});
+  DatabaseSparepart({
+    this.sparepart,
+    this.type,
+    this.supplier,
+    this.date,
+  });
 
-  //fetch data ke database
-  BioDatabase.fromSnapshot(DataSnapshot snapshot)
+  DatabaseSparepart.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        name = snapshot.value['name'],
-        num = snapshot.value['num'],
-        email = snapshot.value['email'],
-        model = snapshot.value['model'],
-        pass = snapshot.value['pass'],
-        dmg = snapshot.value['dmg'],
-        price = snapshot.value['price'],
-        remarks = snapshot.value['remarks'];
+        sparepart = snapshot.value['Model Spareparts'],
+        type = snapshot.value['Jenis Spareparts'],
+        supplier = snapshot.value['Supplier'],
+        date = snapshot.value['Tarikh'];
 
   toJson() {
     return {
-      'nama': name,
-      'nombor untuk dihubungi': num,
-      'email': email,
-      'model': model,
-      'pass': pass,
-      'kerosakkan': dmg,
-      'anggaran harga': price,
-      'remarks': remarks,
+      'Spareparts': sparepart,
+      'Jenis Spareparts': type,
+      'Supplier': supplier,
+      'Tarikh': date,
     };
   }
 }

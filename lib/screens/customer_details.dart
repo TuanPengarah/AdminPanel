@@ -184,7 +184,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                       SizedBox(
                         height: 25,
                       ),
-                      Center(child: Text('Hold pressed to see details')),
+                      Center(child: Text('Tekan lama untuk lihat maklumat')),
                       SizedBox(
                         height: 10,
                       ),
@@ -228,7 +228,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                               color: Colors.black,
                             ),
                             onPressed: () {},
-                            tooltip: 'Tambah Jobsheet baru untuk customer ini',
+                            tooltip:
+                                'Tambah Jobsheet baru untuk ${widget.nama}',
                           ),
                         ],
                       ),

@@ -12,6 +12,14 @@ class _DatabaseSparepartsState extends State<DatabaseSpareparts> {
       appBar: AppBar(
         title: Text('Spareparts'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, 'addsparepart');
+            },
+          ),
+        ],
       ),
     );
   }

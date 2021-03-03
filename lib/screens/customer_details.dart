@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:services_form/widget/buttom_edit_customer.dart';
+import 'package:services_form/widget/confirmation_delete_customer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomerDetails extends StatefulWidget {
@@ -71,11 +72,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
         ).showEditdb(context);
         break;
       case 'Buang':
-        FirebaseFirestore.instance
-            .collection('customer')
-            .doc(widget.id)
-            .delete();
-        Navigator.pop(context);
+        ShowAlert(docid: widget.id).showAlertDialog(context);
         break;
     }
   }
@@ -126,20 +123,6 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                           );
                         }).toList();
                       })
-                  // IconButton(
-                  //   icon: Icon(
-                  //     Icons.app_registration,
-                  //     color: Colors.white,
-                  //     size: 30,
-                  //   ),
-                  //   onPressed: () {
-                  //     // FirebaseFirestore.instance
-                  //     //     .collection('customer')
-                  //     //     .doc(widget.id)
-                  //     //     .delete();
-                  //     // Navigator.pop(context);
-                  //   },
-                  // ),
                 ],
               ),
               Center(

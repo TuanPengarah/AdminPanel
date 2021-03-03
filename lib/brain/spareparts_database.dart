@@ -1,31 +1,36 @@
 import 'package:firebase_database/firebase_database.dart';
 
-class DatabaseSparepart {
+class BioSpareparts {
   String key;
   String sparepart;
   String type;
   String supplier;
+  String quantity;
+  String manufactor;
+  String details;
   String date;
 
-  DatabaseSparepart({
-    this.sparepart,
-    this.type,
-    this.supplier,
-    this.date,
-  });
+  BioSpareparts(this.sparepart, this.type, this.supplier, this.quantity,
+      this.manufactor, this.details, this.date);
 
-  DatabaseSparepart.fromSnapshot(DataSnapshot snapshot)
+  BioSpareparts.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        sparepart = snapshot.value['Model Spareparts'],
+        sparepart = snapshot.value['Nama Spareparts'],
         type = snapshot.value['Jenis Spareparts'],
         supplier = snapshot.value['Supplier'],
+        quantity = snapshot.value['Kuantiti'],
+        manufactor = snapshot.value['Kualiti'],
+        details = snapshot.value['Maklumat Spareparts'],
         date = snapshot.value['Tarikh'];
 
   toJson() {
     return {
-      'Spareparts': sparepart,
+      'Nama Spareparts': sparepart,
       'Jenis Spareparts': type,
       'Supplier': supplier,
+      'Kuantiti': quantity,
+      'Kualiti': manufactor,
+      'Maklumat Spareparts': details,
       'Tarikh': date,
     };
   }

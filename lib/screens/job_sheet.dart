@@ -88,37 +88,8 @@ class _JobSheetState extends State<JobSheet> {
     angg.text = ('');
     remarks.text = ('');
     email.text = ('');
-    // bioList = List();
-    // bio = BioDatabase(
-    //   name: '',
-    //   pass: '',
-    //   num: '',
-    //   price: '',
-    //   model: '',
-    //   dmg: '',
-    //   email: '',
-    //   remarks: '',
-    // );
-    // databaseReference = database.reference().child('customer_drop');
-    // databaseReference.onChildAdded.listen(_onEntryAdded);
-    // databaseReference.onChildChanged.listen(_onEntryChanged);
     super.initState();
   }
-  // void _onEntryAdded(Event event) async {
-  //   setState(() {
-  //     bioList.add(BioDatabase.fromSnapshot((event.snapshot)));
-  //   });
-  // }
-  //
-  // void _onEntryChanged(Event event) async {
-  //   var oldEntry = bioList.singleWhere((entry) {
-  //     return entry.key == event.snapshot.key;
-  //   });
-  //   setState(() {
-  //     bioList[bioList.indexOf(oldEntry)] =
-  //         BioDatabase.fromSnapshot((event.snapshot));
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

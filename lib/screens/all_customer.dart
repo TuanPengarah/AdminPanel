@@ -12,6 +12,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
   bool searchState = false;
   String _searchController;
   Future resultsLoaded;
+
   @override
   Widget build(
     BuildContext context,
@@ -104,6 +105,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                           ),
                           title: Text('' + document['Nama']),
                           subtitle: Text('' + document['No Phone']),
+                          onLongPress: () {},
                           onTap: () {
                             print(document.id);
                             // FirebaseFirestore.instance

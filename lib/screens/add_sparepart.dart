@@ -58,7 +58,7 @@ class _AddSparepartState extends State<AddSparepart> {
   @override
   void initState() {
     super.initState();
-    bioList = List();
+    bioList = [];
     bio = BioSpareparts(
       '',
       '',
@@ -93,7 +93,7 @@ class _AddSparepartState extends State<AddSparepart> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.done),
+        child: Icon(Icons.done, color: Colors.white),
         onPressed: () {
           setState(() {
             csparepart.text.isEmpty
@@ -244,13 +244,13 @@ class _AddSparepartState extends State<AddSparepart> {
 
 _formConfirmation(BuildContext context) {
   // set up the buttons
-  Widget cancelButton = FlatButton(
+  Widget cancelButton = TextButton(
     child: Text("Batal"),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
-  Widget continueButton = FlatButton(
+  Widget continueButton = TextButton(
     child: Text('Pasti'),
     onPressed: () {
       submit();

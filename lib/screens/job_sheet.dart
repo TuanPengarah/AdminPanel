@@ -93,6 +93,8 @@ class _JobSheetState extends State<JobSheet> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return DoubleBack(
       message: 'Tekan sekali lagi untuk keluar',
       child: Scaffold(
@@ -109,9 +111,10 @@ class _JobSheetState extends State<JobSheet> {
               }
             });
           },
-          child: Icon(Icons.done),
+          child: Icon(Icons.done, color: Colors.white),
         ),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor:
+            isDarkMode == true ? Color(0xFF000000) : Colors.blueGrey,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +167,8 @@ class _JobSheetState extends State<JobSheet> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color:
+                        isDarkMode == true ? Color(0xFF121212) : Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(22),
                       topRight: Radius.circular(22),
@@ -263,13 +267,13 @@ class _JobSheetState extends State<JobSheet> {
 
 showAlertDialog(BuildContext context) {
   // set up the buttons
-  Widget cancelButton = FlatButton(
+  Widget cancelButton = TextButton(
     child: Text("Batal"),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
-  Widget continueButton = FlatButton(
+  Widget continueButton = TextButton(
     child: Text('Pasti'),
     onPressed: () {
       addData();

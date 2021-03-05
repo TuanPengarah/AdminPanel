@@ -46,7 +46,7 @@ class Button extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                'SpareParts',
+                'Inventory',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,

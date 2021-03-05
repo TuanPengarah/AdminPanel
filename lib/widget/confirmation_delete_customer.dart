@@ -7,13 +7,13 @@ class ShowAlert {
 
   showAlertDialog(BuildContext context) {
 // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Batal"),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text(
         'Padam',
         style: TextStyle(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:services_form/brain/spareparts_suggestion.dart';
 
 class TextBar extends StatelessWidget {
   TextBar(

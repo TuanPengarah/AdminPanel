@@ -79,6 +79,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -113,7 +115,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         Icons.menu,
                         color: Colors.white,
                       ),
-                      color: Colors.white,
+                      color:
+                          isDarkMode == true ? Color(0xFF121212) : Colors.white,
                       onSelected: handleClick,
                       itemBuilder: (BuildContext context) {
                         return {'Edit', 'Buang'}.map((String choice) {
@@ -137,7 +140,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color:
+                        isDarkMode == true ? Color(0xFF121212) : Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(22),
                       topRight: Radius.circular(22),
@@ -177,7 +181,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                           IconButton(
                             icon: Icon(
                               Icons.phone,
-                              color: Colors.black,
+                              color: isDarkMode == true
+                                  ? Colors.white
+                                  : Color(0xFF000000),
                             ),
                             onPressed: () {
                               _launchCaller();
@@ -187,7 +193,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                           IconButton(
                             icon: Icon(
                               Icons.message,
-                              color: Colors.black,
+                              color: isDarkMode == true
+                                  ? Colors.white
+                                  : Color(0xFF000000),
                             ),
                             onPressed: () {
                               _launchSms();
@@ -198,7 +206,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                             hoverColor: Colors.blueGrey,
                             icon: Icon(
                               Icons.email,
-                              color: Colors.black,
+                              color: isDarkMode == true
+                                  ? Colors.white
+                                  : Color(0xFF000000),
                             ),
                             onPressed: () {
                               _launchEmail();
@@ -208,7 +218,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                           IconButton(
                             icon: Icon(
                               Icons.add,
-                              color: Colors.black,
+                              color: isDarkMode == true
+                                  ? Colors.white
+                                  : Color(0xFF000000),
                             ),
                             onPressed: () {},
                             tooltip:

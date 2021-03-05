@@ -34,7 +34,7 @@ class SmartphoneSuggestion {
   ];
 
   static List<String> getSuggestions(String query) {
-    List<String> matches = List();
+    List<String> matches = [];
     matches.addAll(phone);
 
     matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));

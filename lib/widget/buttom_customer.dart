@@ -28,7 +28,7 @@ buttomCustomerSheet(context) {
                 SizedBox(
                   height: 30,
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, 'jobsheet');
@@ -38,11 +38,10 @@ buttomCustomerSheet(context) {
                     style: TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.w800,
-                      color: Colors.blueGrey,
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, 'allcustomer');
                   },

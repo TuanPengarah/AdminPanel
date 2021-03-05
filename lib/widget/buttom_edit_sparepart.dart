@@ -95,13 +95,13 @@ class EditSparepart {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
                       child: Text('Batal'),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },

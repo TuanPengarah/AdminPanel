@@ -19,6 +19,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
   ) {
     return Scaffold(
         appBar: AppBar(
+          brightness: Brightness.dark,
           automaticallyImplyLeading: false,
           leading: IconButton(
             tooltip: 'Tambah Jobsheet baru',

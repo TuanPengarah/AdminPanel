@@ -87,7 +87,7 @@ class _DatabaseSparepartsState extends State<DatabaseSpareparts> {
             ) {
               if (snapshot.value != null) {
                 String title =
-                    '${snapshot.value['Jenis Spareparts']} ${snapshot.value['Nama Spareparts']}';
+                    '${snapshot.value['Jenis Spareparts']} ${snapshot.value['Model']}';
 
                 return Column(
                   children: [
@@ -126,6 +126,9 @@ ${snapshot.value['Tarikh']}"""),
                           icon: Icons.edit,
                           onTap: () {
                             EditSparepart(
+                              tarikh: snapshot.value['Tarikh'],
+                              userID: snapshot.key,
+                              model: snapshot.value['Model'],
                               supplier: snapshot.value['Supplier'],
                               sparepart: snapshot.value['Jenis Spareparts'],
                               quantity: snapshot.value['Kuantiti'],

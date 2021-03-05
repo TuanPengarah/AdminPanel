@@ -15,7 +15,7 @@ class BioSpareparts {
 
   BioSpareparts.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        sparepart = snapshot.value['Nama Spareparts'],
+        sparepart = snapshot.value['Model'],
         type = snapshot.value['Jenis Spareparts'],
         supplier = snapshot.value['Supplier'],
         quantity = snapshot.value['Kuantiti'],
@@ -25,7 +25,7 @@ class BioSpareparts {
 
   toJson() {
     return {
-      'Nama Spareparts': sparepart,
+      'Model': sparepart,
       'Jenis Spareparts': type,
       'Supplier': supplier,
       'Kuantiti': quantity,

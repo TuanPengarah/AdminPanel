@@ -62,9 +62,7 @@ class _PrintState extends State<Print> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Print resit'),
-      ),
+      appBar: AppBar(title: Text('Print resit'), brightness: Brightness.dark),
       body: _devices.isEmpty
           ? Center(child: Text(_devicesMsg ?? ''))
           : ListView.builder(

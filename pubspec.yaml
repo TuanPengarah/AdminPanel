@@ -45,7 +45,7 @@ dependencies:
   flutter_slidable:
   flutter_typeahead: ^2.0.0
   adaptive_theme: ^1.1.0
-  flutter_statusbarcolor: ^0.2.3
+  oktoast: ^3.0.0
 
 dev_dependencies:
   flutter_test:

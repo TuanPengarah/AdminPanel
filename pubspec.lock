@@ -349,13 +349,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.7"
-  flutter_statusbarcolor:
-    dependency: "direct main"
-    description:
-      name: flutter_statusbarcolor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -520,6 +513,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  oktoast:
+    dependency: "direct main"
+    description:
+      name: oktoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   package_config:
     dependency: transitive
     description:

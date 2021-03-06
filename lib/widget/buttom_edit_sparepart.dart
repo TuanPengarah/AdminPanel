@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:services_form/brain/quality_suggestion.dart';
 import 'package:services_form/brain/smartphone_suggestion.dart';
 import 'package:services_form/brain/spareparts_database.dart';
@@ -246,7 +247,11 @@ class EditSparepart {
     _details.text.isEmpty
         ? bio.details = details
         : bio.details = _details.text.toString();
-    await databaseReference.child(userID).update(bio.toJson());
+    await databaseReference
+        .child(userID)
+        .update(bio.toJson())
+        .then((value) => showToast('Kemaskini berjaya'))
+        .catchError((error) => showToast('Kesilapan telah berlaku: $error'));
   }
 
   _editConfirmation(BuildContext context) {

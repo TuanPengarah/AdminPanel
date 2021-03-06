@@ -9,6 +9,7 @@ import 'package:sizer/sizer.dart';
 import 'screens/print.dart';
 import 'screens/spareparts.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:oktoast/oktoast.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -52,19 +53,21 @@ class MyApp extends StatelessWidget {
                     floatingActionButtonTheme: FloatingActionButtonThemeData(
                         backgroundColor: Colors.blueGrey)),
                 initial: savedThemeMode ?? AdaptiveThemeMode.system,
-                builder: (theme, darkTheme) => MaterialApp(
-                      theme: theme,
-                      darkTheme: darkTheme,
-                      debugShowCheckedModeBanner: false,
-                      initialRoute: 'homescreen',
-                      routes: {
-                        'print': (context) => Print(),
-                        'homescreen': (context) => HomeScreen(),
-                        'jobsheet': (context) => JobSheet(),
-                        'spareparts': (context) => DatabaseSpareparts(),
-                        'allcustomer': (context) => CustomerDatabase(),
-                        'addsparepart': (context) => AddSparepart(),
-                      },
+                builder: (theme, darkTheme) => OKToast(
+                      child: MaterialApp(
+                        theme: theme,
+                        darkTheme: darkTheme,
+                        debugShowCheckedModeBanner: false,
+                        initialRoute: 'homescreen',
+                        routes: {
+                          'print': (context) => Print(),
+                          'homescreen': (context) => HomeScreen(),
+                          'jobsheet': (context) => JobSheet(),
+                          'spareparts': (context) => DatabaseSpareparts(),
+                          'allcustomer': (context) => CustomerDatabase(),
+                          'addsparepart': (context) => AddSparepart(),
+                        },
+                      ),
                     ));
           },
         );

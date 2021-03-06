@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:services_form/brain/quality_suggestion.dart';
 import 'package:services_form/brain/spareparts_suggestion.dart';
 import 'package:services_form/brain/smartphone_suggestion.dart';
@@ -287,7 +288,12 @@ void submit() {
   bio.manufactor = cmanufactor.text.toString();
   bio.details = cdetails.text.toString();
   bio.date = _tarikh;
-  databaseReference.push().set(bio.toJson());
+  databaseReference
+      .push()
+      .set(bio.toJson())
+      .then(
+          (value) => showToast('Sparepart telah berjaya ditambah ke database'))
+      .catchError((error) => showToast('Kesilapan telah berlaku: $error'));
 }
 
 void clear() {

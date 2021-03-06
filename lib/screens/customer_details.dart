@@ -69,10 +69,11 @@ class _CustomerDetailsState extends State<CustomerDetails> {
           name: widget.nama,
           phone: widget.phone,
           email: widget.email,
+          docid: widget.id,
         ).showEditdb(context);
         break;
       case 'Buang':
-        ShowAlert(docid: widget.id).showAlertDialog(context);
+        ShowAlert(docid: widget.id, nama: widget.nama).showAlertDialog(context);
         break;
     }
   }

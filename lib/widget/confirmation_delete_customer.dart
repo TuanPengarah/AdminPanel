@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oktoast/oktoast.dart';
 
 class ShowAlert {
   final docid;
-  ShowAlert({this.docid});
+  final nama;
+  ShowAlert({this.docid, this.nama});
 
   showAlertDialog(BuildContext context) {
 // set up the buttons
@@ -21,7 +23,12 @@ class ShowAlert {
         ),
       ),
       onPressed: () {
-        FirebaseFirestore.instance.collection('customer').doc(docid).delete();
+        FirebaseFirestore.instance
+            .collection('customer')
+            .doc(docid)
+            .delete()
+            .then((value) => showToast('Customer $nama telah dipadam'))
+            .catchError((error) => showToast('Gagal untuk padam: $error'));
         Navigator.pop(context);
         Navigator.pop(context);
       },

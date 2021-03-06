@@ -8,6 +8,7 @@ import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:native_contact_picker/native_contact_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:oktoast/oktoast.dart';
 
 final nama = TextEditingController();
 final phone = TextEditingController();
@@ -42,6 +43,8 @@ addData() {
     for (int y = 1; y < splitList[i].length + 1; y++)
       indexList.add(splitList[i].substring(0, y).toLowerCase());
   }
+  print(splitList);
+  print('$indexList');
   Map<String, dynamic> userData = {
     'Tarikh': '$_tarikh',
     'Nama': '${nama.text}',
@@ -58,7 +61,11 @@ addData() {
   try {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('customer');
-    collectionReference.add(userData);
+    collectionReference
+        .add(userData)
+        .then((value) => showToast('Job Sheet berjaya di masukkan ke database'))
+        .catchError((error) =>
+            showToast('Gagal untuk memasuki job sheet ke database: $error'));
   } catch (e) {
     print(e);
   }

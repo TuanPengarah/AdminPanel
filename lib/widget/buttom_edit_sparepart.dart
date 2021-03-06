@@ -271,7 +271,7 @@ class EditSparepart {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text('Edir Spareparts'),
+      title: Text('Edit Spareparts'),
       content: Text('Pastikan segala maklumat spareparts adalah betul!'),
       actions: [
         cancelButton,

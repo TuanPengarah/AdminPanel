@@ -76,6 +76,11 @@ class Editdb {
                   children: [
                     TextButton(
                       onPressed: () {
+                        // FirebaseFirestore.instance
+                        //     .collection('customer')
+                        //     .doc(docid)
+                        //     .collection('Test')
+                        //     .add({'Test': 'ahahaha'});
                         Navigator.pop(context);
                       },
                       child: Text(

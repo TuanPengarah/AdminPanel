@@ -6,6 +6,24 @@ class ShowAlert {
   final docid;
   final nama;
   ShowAlert({this.docid, this.nama});
+  void deleteNestedSubcollections(String id) {
+    Future<QuerySnapshot> customer = FirebaseFirestore.instance
+        .collection('customer')
+        .doc(id)
+        .collection('repair history')
+        .get();
+
+    customer.then((value) {
+      value.docs.forEach((element) {
+        FirebaseFirestore.instance
+            .collection('customer')
+            .doc(id)
+            .collection('repair history')
+            .doc(element.id)
+            .delete();
+      });
+    });
+  }
 
   showAlertDialog(BuildContext context) {
 // set up the buttons
@@ -23,6 +41,7 @@ class ShowAlert {
         ),
       ),
       onPressed: () {
+        deleteNestedSubcollections(docid);
         FirebaseFirestore.instance
             .collection('customer')
             .doc(docid)

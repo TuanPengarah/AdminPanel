@@ -114,12 +114,8 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                                 builder: (_) => CustomerDetails(
                                   nama: document['Nama'],
                                   phone: document['No Phone'],
-                                  model: document['Harga'],
                                   id: document.id,
-                                  price: document['Search Index'],
                                   email: document['Email'],
-                                  remarks: document['Remarks'],
-                                  password: document['Password'],
                                 ),
                               ),
                             );
@@ -160,7 +156,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                           ),
                           title: Text('' + document['Nama']),
                           subtitle: Text('' + document['No Phone']),
-                            onTap: () {
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(

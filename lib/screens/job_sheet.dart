@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services_form/widget/text_bar.dart';
@@ -10,6 +11,7 @@ import 'package:native_contact_picker/native_contact_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
 
+//Nama id setiap textbar
 final nama = TextEditingController();
 final phone = TextEditingController();
 final model = TextEditingController();
@@ -18,54 +20,85 @@ final damage = TextEditingController();
 final angg = TextEditingController();
 final remarks = TextEditingController();
 final email = TextEditingController();
-/////////////////////////--MyRepairID--/////////////////
+int genUID = 00000;
+int midUID = 0000;
+//MyRepairID
 int uid = 00000;
+//Generate MyRepairID
 void randomize() {
   uid = Random().nextInt(999999 - 100000);
 }
 
-//generate untuk tarikh baru
+void generateMidUid() {
+  midUID = Random().nextInt(9999 - 1000);
+}
+
+generateUID() async {
+  final QuerySnapshot qSnap =
+      await FirebaseFirestore.instance.collection('customer').get();
+  final int documents = qSnap.docs.length;
+  genUID = documents;
+}
+
+//Customer UID
+int calc = 000000;
+
+//generate untuk tarikh baru (Device Time)
 tarikh() {
   var now = new DateTime.now();
   var formatter = new DateFormat('dd-MM-yyyy');
   return formatter.format(now);
 }
 
-//realtime database(not firestore database)
-// final FirebaseDatabase database = FirebaseDatabase.instance;
-// DatabaseReference databaseReference;
 addData() {
+//convert tarikh dari peranti ke database
   String _tarikh = tarikh().toString();
-  List<String> splitList = nama.text.split(" ");
 
+//fungsi search (LOOP Method)
+  List<String> splitList = nama.text.split(" ");
   List<String> indexList = [];
   for (int i = 0; i < splitList.length; i++) {
     for (int y = 1; y < splitList[i].length + 1; y++)
       indexList.add(splitList[i].substring(0, y).toLowerCase());
   }
-  print(splitList);
-  print('$indexList');
+//repair history berformat JSON
+  Map<String, dynamic> repairHistory = {
+    'MID': '${uid.toString()}',
+    'Model': '${model.text}',
+    'Password': '${pass.text}',
+    'Kerosakkan': '${damage.text}',
+    'Harga': 'RM${angg.text}',
+    'Remarks': '*${remarks.text}',
+  };
+//customer bio berformat JSON
   Map<String, dynamic> userData = {
     'Tarikh': '$_tarikh',
     'Nama': '${nama.text}',
     'No Phone': '${phone.text}',
-    'Model': '${model.text}',
-    'Password': '${pass.text}',
     'Email': '${email.text}',
-    'Kerosakkan': '${damage.text}',
-    'Harga': 'RM${angg.text}',
-    'Remarks': '*${remarks.text}',
-    'MID': '${uid.toString()}',
     'Search Index': indexList,
   };
   try {
+    //cantumkan variable nama dengan UID
+    String _docid =
+        'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}';
+    //Tambah data collection (Customer Bio) ke database
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('customer');
     collectionReference
-        .add(userData)
+        .doc(_docid)
+        .set(userData)
         .then((value) => showToast('Job Sheet berjaya di masukkan ke database'))
         .catchError((error) =>
             showToast('Gagal untuk memasuki job sheet ke database: $error'));
+
+    //Tambah data sub-collection (Repair History) ke database
+    FirebaseFirestore.instance
+        .collection('customer')
+        .doc(_docid)
+        .collection('repair history')
+        .doc(uid.toString())
+        .set(repairHistory);
   } catch (e) {
     print(e);
   }
@@ -114,6 +147,8 @@ class _JobSheetState extends State<JobSheet> {
               if (namamiss == false &&
                   phonemiss == false &&
                   modelmiss == false) {
+                generateMidUid();
+                generateUID();
                 showAlertDialog(context);
               }
             });

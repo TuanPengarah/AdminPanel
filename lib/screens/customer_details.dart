@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_letter/avatar_letter.dart';
+import 'package:services_form/screens/job_sheet.dart';
 import 'package:services_form/widget/buttom_edit_customer.dart';
 import 'package:services_form/widget/confirmation_delete_customer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -82,8 +83,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
   Widget build(BuildContext context) {
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+    String passID = widget.id;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: isDarkMode == true ? Colors.black26 : Colors.blueGrey,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -143,10 +145,6 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                   decoration: BoxDecoration(
                     color:
                         isDarkMode == true ? Color(0xFF121212) : Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(22),
-                      topRight: Radius.circular(22),
-                    ),
                   ),
                   child: ListView(
                     children: [
@@ -154,7 +152,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         padding: EdgeInsets.only(top: 15.0),
                         child: Center(
                           child: Hero(
-                            tag: widget.nama,
+                            tag: widget.id,
                             child: AvatarLetter(
                               size: 280,
                               letterType: LetterType.Circular,
@@ -163,7 +161,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                               numberLetters: 2,
                               textColor: Colors.white,
                               textColorHex: null,
-                              backgroundColor: Colors.blueGrey,
+                              backgroundColor: Colors.grey[400],
                               backgroundColorHex: null,
                             ),
                           ),
@@ -223,7 +221,20 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                   ? Colors.white
                                   : Color(0xFF000000),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => JobSheet(
+                                    editCustomer: true,
+                                    passName: widget.nama,
+                                    passEmail: widget.email,
+                                    passPhone: widget.phone,
+                                    passUID: widget.id,
+                                  ),
+                                ),
+                              );
+                            },
                             tooltip:
                                 'Tambah Jobsheet baru untuk ${widget.nama}',
                           ),
@@ -240,6 +251,20 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                               fontSize: 30,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 2),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(
+                          widget.phone,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -269,7 +294,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                       Padding(
                         padding: const EdgeInsets.only(left: 18.0),
                         child: Text(
-                          'Repair History',
+                          'Sejarah Pembaikan',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 25,
@@ -278,6 +303,125 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                       ),
                       SizedBox(
                         height: 22,
+                      ),
+                      StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('customer')
+                            .doc(passID)
+                            .collection('repair history')
+                            .orderBy('timeStamp', descending: true)
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: Text('Loading jap'),
+                            );
+                          }
+                          return Column(
+                            children: snapshot.data.docs.map((document) {
+                              return InkWell(
+                                onTap: () {},
+                                child: Card(
+                                  elevation: 5,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(document['Model'],
+                                                style: TextStyle(fontSize: 20)),
+                                            Text(document['MID'],
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.grey)),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          document['Kerosakkan'],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          '${document['Remarks']} (${document['Password']})',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${document['Harga']}',
+                                              style: TextStyle(
+                                                fontSize: 25,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            document['Status'] ==
+                                                    'Belum Selesai'
+                                                ? IconButton(
+                                                    icon: Icon(Icons.refresh,
+                                                        color: Colors.grey),
+                                                    onPressed: () {},
+                                                    tooltip: 'Belum Selesai')
+                                                : IconButton(
+                                                    icon: Icon(Icons.done,
+                                                        color: Colors.grey),
+                                                    onPressed: () {},
+                                                    tooltip: 'Selesai'),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          'Di uruskan oleh: ${document['Technician']} pada tarikh ${document['Tarikh']}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),

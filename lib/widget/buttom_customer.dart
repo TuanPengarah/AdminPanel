@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:services_form/screens/job_sheet.dart';
 
 buttomCustomerSheet(context) {
   showModalBottomSheet(
@@ -31,7 +32,14 @@ buttomCustomerSheet(context) {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, 'jobsheet');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => JobSheet(
+                          editCustomer: false,
+                        ),
+                      ),
+                    );
                   },
                   child: Text(
                     'Reka Jobsheet baru',
@@ -47,6 +55,14 @@ buttomCustomerSheet(context) {
                   },
                   child: Text(
                     'Semua Customer',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Pending Job',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

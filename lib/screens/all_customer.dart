@@ -77,6 +77,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('customer')
+                      .orderBy('Nama')
                       .snapshots(),
                   builder: (
                     BuildContext context,
@@ -91,7 +92,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                       children: snapshot.data.docs.map((document) {
                         return ListTile(
                           leading: Hero(
-                            tag: document['Nama'],
+                            tag: document.id,
                             child: AvatarLetter(
                               textColor: Colors.white,
                               numberLetters: 2,

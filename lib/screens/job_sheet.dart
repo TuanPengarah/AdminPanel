@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services_form/widget/text_bar.dart';
@@ -50,61 +49,20 @@ tarikh() {
   return formatter.format(now);
 }
 
-addData() {
-//convert tarikh dari peranti ke database
-  String _tarikh = tarikh().toString();
-
-//fungsi search (LOOP Method)
-  List<String> splitList = nama.text.split(" ");
-  List<String> indexList = [];
-  for (int i = 0; i < splitList.length; i++) {
-    for (int y = 1; y < splitList[i].length + 1; y++)
-      indexList.add(splitList[i].substring(0, y).toLowerCase());
-  }
-//repair history berformat JSON
-  Map<String, dynamic> repairHistory = {
-    'MID': '${uid.toString()}',
-    'Model': '${model.text}',
-    'Password': '${pass.text}',
-    'Kerosakkan': '${damage.text}',
-    'Harga': 'RM${angg.text}',
-    'Remarks': '*${remarks.text}',
-  };
-//customer bio berformat JSON
-  Map<String, dynamic> userData = {
-    'Tarikh': '$_tarikh',
-    'Nama': '${nama.text}',
-    'No Phone': '${phone.text}',
-    'Email': '${email.text}',
-    'Search Index': indexList,
-  };
-  try {
-    //cantumkan variable nama dengan UID
-    String _docid =
-        'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}';
-    //Tambah data collection (Customer Bio) ke database
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('customer');
-    collectionReference
-        .doc(_docid)
-        .set(userData)
-        .then((value) => showToast('Job Sheet berjaya di masukkan ke database'))
-        .catchError((error) =>
-            showToast('Gagal untuk memasuki job sheet ke database: $error'));
-
-    //Tambah data sub-collection (Repair History) ke database
-    FirebaseFirestore.instance
-        .collection('customer')
-        .doc(_docid)
-        .collection('repair history')
-        .doc(uid.toString())
-        .set(repairHistory);
-  } catch (e) {
-    print(e);
-  }
-}
-
 class JobSheet extends StatefulWidget {
+  final bool editCustomer;
+  final String passName;
+  final String passPhone;
+  final String passEmail;
+  final String passUID;
+
+  JobSheet(
+      {this.editCustomer,
+      this.passPhone,
+      this.passName,
+      this.passEmail,
+      this.passUID});
+
   @override
   _JobSheetState createState() => _JobSheetState();
 }
@@ -120,15 +78,30 @@ class _JobSheetState extends State<JobSheet> {
   @override
   void initState() {
     randomize();
-    nama.text = ('');
-    phone.text = ('');
-    model.text = ('');
-    pass.text = ('');
-    damage.text = ('');
-    angg.text = ('');
-    remarks.text = ('');
-    email.text = ('');
+    widget.editCustomer == false ? reset() : getFromDetails();
     super.initState();
+  }
+
+  void reset() {
+    nama.clear();
+    phone.clear();
+    email.clear();
+    model.clear();
+    pass.clear();
+    damage.clear();
+    angg.clear();
+    remarks.clear();
+  }
+
+  void getFromDetails() {
+    nama.text = widget.passName;
+    phone.text = widget.passPhone;
+    email.text = widget.passEmail;
+    model.clear();
+    pass.clear();
+    damage.clear();
+    angg.clear();
+    remarks.clear();
   }
 
   @override
@@ -305,55 +278,118 @@ class _JobSheetState extends State<JobSheet> {
       ),
     );
   }
-}
 
-showAlertDialog(BuildContext context) {
-  // set up the buttons
-  Widget cancelButton = TextButton(
-    child: Text("Batal"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text('Pasti'),
-    onPressed: () {
-      addData();
-      // databaseReference.push().set(bio.toJson());
-      Navigator.pop(context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => Print(
-            dataname: nama.text,
-            dataphone: phone.text,
-            datamodel: model.text,
-            datapass: pass.text,
-            datadmg: damage.text,
-            dataangg: angg.text,
-            dataremarks: remarks.text,
-            datauid: uid,
+  addData() {
+    pass.text.isEmpty ? pass.text = 'Tiada Password' : pass.text = pass.text;
+//convert tarikh dari peranti ke database
+    String _tarikh = tarikh().toString();
+
+//fungsi search (LOOP Method)
+    List<String> splitList = nama.text.split(" ");
+    List<String> indexList = [];
+    for (int i = 0; i < splitList.length; i++) {
+      for (int y = 1; y < splitList[i].length + 1; y++)
+        indexList.add(splitList[i].substring(0, y).toLowerCase());
+    }
+//repair history berformat JSON
+    Map<String, dynamic> repairHistory = {
+      'MID': '${uid.toString()}',
+      'Model': '${model.text}',
+      'Password': '${pass.text}',
+      'Kerosakkan': '${damage.text}',
+      'Harga': 'RM${angg.text}',
+      'Remarks': '*${remarks.text}',
+      'Tarikh': _tarikh,
+      'Technician': 'Akid Fikri Azhar',
+      'Status': 'Belum Selesai',
+      'timeStamp': FieldValue.serverTimestamp(),
+    };
+//customer bio berformat JSON
+    Map<String, dynamic> userData = {
+      'Tarikh': _tarikh,
+      'Nama': '${nama.text}',
+      'No Phone': '${phone.text}',
+      'Email': '${email.text}',
+      'Search Index': indexList,
+    };
+    try {
+      //cantumkan variable nama dengan UID
+      String _docid;
+      widget.editCustomer == false
+          ? _docid =
+              'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}'
+          : _docid = widget.passUID;
+      //Tambah data collection (Customer Bio) ke database
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('customer');
+      collectionReference
+          .doc(_docid)
+          .set(userData)
+          .then(
+              (value) => showToast('Job Sheet berjaya di masukkan ke database'))
+          .catchError((error) =>
+              showToast('Gagal untuk memasuki job sheet ke database: $error'));
+
+      //Tambah data sub-collection (Repair History) ke database
+      FirebaseFirestore.instance
+          .collection('customer')
+          .doc(_docid)
+          .collection('repair history')
+          .doc(uid.toString())
+          .set(repairHistory);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Batal"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text('Pasti'),
+      onPressed: () {
+        addData();
+        // databaseReference.push().set(bio.toJson());
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => Print(
+              dataname: nama.text,
+              dataphone: phone.text,
+              datamodel: model.text,
+              datapass: pass.text,
+              datadmg: damage.text,
+              dataangg: angg.text,
+              dataremarks: remarks.text,
+              datauid: uid,
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
 
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text('Adakah anda pasti'),
-    content: Text('Pastikan segala maklumat customer adalah betul!'),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('Adakah anda pasti'),
+      content: Text('Pastikan segala maklumat customer adalah betul!'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
 
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

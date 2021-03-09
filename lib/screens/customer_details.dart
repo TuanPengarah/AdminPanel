@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:services_form/screens/job_sheet.dart';
 import 'package:services_form/widget/buttom_edit_customer.dart';
+import 'package:services_form/widget/card_details.dart';
 import 'package:services_form/widget/confirmation_delete_customer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -320,101 +321,17 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                           }
                           return Column(
                             children: snapshot.data.docs.map((document) {
-                              return InkWell(
-                                onTap: () {},
-                                child: Card(
-                                  elevation: 5,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(document['Model'],
-                                                style: TextStyle(fontSize: 20)),
-                                            Text(document['MID'],
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.grey)),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          document['Kerosakkan'],
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          '${document['Remarks']} (${document['Password']})',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 50,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '${document['Harga']}',
-                                              style: TextStyle(
-                                                fontSize: 25,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            document['Status'] ==
-                                                    'Belum Selesai'
-                                                ? IconButton(
-                                                    icon: Icon(Icons.refresh,
-                                                        color: Colors.grey),
-                                                    onPressed: () {},
-                                                    tooltip: 'Belum Selesai')
-                                                : IconButton(
-                                                    icon: Icon(Icons.done,
-                                                        color: Colors.grey),
-                                                    onPressed: () {},
-                                                    tooltip: 'Selesai'),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          'Di uruskan oleh: ${document['Technician']} pada tarikh ${document['Tarikh']}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      )
-                                    ],
-                                  ),
-                                ),
+                              return CardDetails(
+                                model: document['Model'],
+                                harga: document['Harga'],
+                                kerosakkan: document['Kerosakkan'],
+                                mid: document['MID'],
+                                remarks: document['Remarks'],
+                                status: document['Status'],
+                                tarikh: document['Tarikh'],
+                                technician: document['Technician'],
+                                timestamp: document['timeStamp'],
+                                password: document['Password'],
                               );
                             }).toList(),
                           );

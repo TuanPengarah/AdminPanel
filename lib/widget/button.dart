@@ -34,7 +34,12 @@ class Button extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.pushNamed(context, 'spareparts');
+            Future.delayed(
+              const Duration(milliseconds: 190),
+              () {
+                Navigator.pushNamed(context, 'spareparts');
+              },
+            );
           },
           child: Container(
             height: 50,

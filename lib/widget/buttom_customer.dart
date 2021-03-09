@@ -60,7 +60,9 @@ buttomCustomerSheet(context) {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'pendingjob');
+                  },
                   child: Text(
                     'Pending Job',
                     style:

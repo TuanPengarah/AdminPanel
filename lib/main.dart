@@ -10,6 +10,7 @@ import 'screens/print.dart';
 import 'screens/spareparts.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:oktoast/oktoast.dart';
+import 'screens/pending_job.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget {
                     primarySwatch: Colors.blueGrey,
                     accentColor: Colors.blueGrey,
                     colorScheme: ColorScheme.dark(primary: Colors.white),
+                    scaffoldBackgroundColor: Colors.black87,
+                    appBarTheme: AppBarTheme(color: Colors.blueGrey),
                     floatingActionButtonTheme: FloatingActionButtonThemeData(
                         backgroundColor: Colors.blueGrey)),
                 initial: savedThemeMode ?? AdaptiveThemeMode.system,
@@ -66,6 +69,7 @@ class MyApp extends StatelessWidget {
                           'spareparts': (context) => DatabaseSpareparts(),
                           'allcustomer': (context) => CustomerDatabase(),
                           'addsparepart': (context) => AddSparepart(),
+                          'pendingjob': (context) => PendingJob(),
                         },
                       ),
                     ));

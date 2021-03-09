@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:services_form/screens/job_sheet.dart';
+import 'package:services_form/screens/new_customer_details.dart';
 import 'customer_details.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 
@@ -26,7 +29,14 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
             icon: Icon(Icons.add),
             color: Colors.white,
             onPressed: () {
-              Navigator.pushNamed(context, 'jobsheet');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => JobSheet(
+                    editCustomer: false,
+                  ),
+                ),
+              );
             },
           ),
           title: !searchState
@@ -109,13 +119,18 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                           subtitle: Text('' + document['No Phone']),
                           onLongPress: () {},
                           onTap: () {
+                            SystemChrome.setSystemUIOverlayStyle(
+                                SystemUiOverlayStyle(
+                                    systemNavigationBarColor: Colors
+                                        .blueGrey // navigation bar color // status bar color
+                                    ));
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => CustomerDetails(
+                                builder: (_) => NewCustomerDetails(
                                   nama: document['Nama'],
-                                  phone: document['No Phone'],
-                                  id: document.id,
+                                  databaseUID: document.id,
+                                  nomborTelefon: document['No Phone'],
                                   email: document['Email'],
                                 ),
                               ),

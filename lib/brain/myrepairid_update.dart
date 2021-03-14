@@ -31,7 +31,8 @@ class MridUpdate {
     Map<String, dynamic> repairLog = {
       'Repair Log': passRepairLog.toString(),
       'Waktu': waktu(),
-      'isError': passErrorLog
+      'isError': passErrorLog,
+      'timeStamp': FieldValue.serverTimestamp(),
     };
 
     Map<String, dynamic> updateStatus = {
@@ -49,7 +50,11 @@ class MridUpdate {
     FirebaseFirestore.instance
         .collection('MyrepairID')
         .doc(passID)
-        .update(updateStatus);
+        .update(updateStatus)
+        .then((value) =>
+            showToast('Kemaskini berjaya', position: ToastPosition.bottom))
+        .catchError((error) => showToast('Gagal untuk kemaskini: $error',
+            position: ToastPosition.bottom));
     //Repair Log
     FirebaseFirestore.instance
         .collection('MyrepairID')

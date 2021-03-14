@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 import 'package:services_form/screens/myrepairid_control.dart';
@@ -13,6 +14,26 @@ class PendingJob extends StatefulWidget {
 
 class _PendingJobState extends State<PendingJob> {
   double checkPercent = 0.0;
+
+  void deleteNestedRepairLog(String id) {
+    Future<QuerySnapshot> customer = FirebaseFirestore.instance
+        .collection('MyrepairID')
+        .doc(id)
+        .collection('repair log')
+        .get();
+
+    customer.then((value) {
+      value.docs.forEach((element) {
+        FirebaseFirestore.instance
+            .collection('MyrepairID')
+            .doc(id)
+            .collection('repair log')
+            .doc(element.id)
+            .delete();
+      });
+    });
+  }
+
   @override
   void initState() {
     if (checkPercent > 100) {
@@ -54,6 +75,52 @@ class _PendingJobState extends State<PendingJob> {
 
             return ListView(
                 children: snapshot.data.docs.map((document) {
+              _deleteConfirmation(BuildContext context) {
+                // set up the buttons
+                Widget cancelButton = TextButton(
+                  child: Text(
+                    "Batal",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                );
+                Widget continueButton = TextButton(
+                  child: Text('Setuju'),
+                  onPressed: () {
+                    deleteNestedRepairLog(document.id);
+                    FirebaseFirestore.instance
+                        .collection('MyrepairID')
+                        .doc(document.id)
+                        .delete()
+                        .then((value) =>
+                            showToast('Status MyRepair ID telah dipadam'))
+                        .catchError(
+                            (error) => showToast('Gagal untuk padam: $error'));
+                    Navigator.pop(context);
+                  },
+                );
+
+                // set up the AlertDialog
+                AlertDialog alert = AlertDialog(
+                  title: Text('AMARAN!'),
+                  content: Text('Segala log dan status repair akan dipadam!'),
+                  actions: [
+                    cancelButton,
+                    continueButton,
+                  ],
+                );
+
+                // show the dialog
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alert;
+                  },
+                );
+              }
+
               double progress = document['Percent'];
               checkPercent = progress;
               currentProgressColor() {
@@ -74,6 +141,10 @@ class _PendingJobState extends State<PendingJob> {
                   child: Card(
                     elevation: 5,
                     child: InkWell(
+                      onLongPress: () {
+                        // ignore: unnecessary_statements
+                        progress == 1 ? _deleteConfirmation(context) : null;
+                      },
                       onTap: () {
                         Future.delayed(const Duration(milliseconds: 200), () {
                           context.pushTransparentRoute(EditMyRepairID(
@@ -88,7 +159,7 @@ class _PendingJobState extends State<PendingJob> {
                             status: document['Status'],
                             tarikh: document['Tarikh'],
                             technician: document['Technician'],
-                            uid: document['UID'],
+                            uid: document['Database UID'],
                           ));
                         });
                       },

@@ -51,7 +51,7 @@ buttomCustomerSheet(context) {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'allcustomer');
+                    Navigator.pushNamed(context, 'allcustomer');
                   },
                   child: Text(
                     'Semua Customer',
@@ -64,7 +64,7 @@ buttomCustomerSheet(context) {
                     Navigator.pushNamed(context, 'pendingjob');
                   },
                   child: Text(
-                    'Pending Job',
+                    'MyRepair ID (Pending Job)',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

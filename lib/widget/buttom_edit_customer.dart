@@ -50,7 +50,11 @@ class Editdb {
                   hintTitle: 'Masukkan nama baru $name',
                   hintEdit: '$name',
                   keyType: TextInputType.name,
-                  valueChange: (value) {},
+                  valueChange: (value) {
+                    if (cNama.text != value.toUpperCase())
+                      cNama.value =
+                          cNama.value.copyWith(text: value.toUpperCase());
+                  },
                 ),
                 TextBar(
                   focus: false,
@@ -128,8 +132,10 @@ class Editdb {
           'Email': '${cEmail.text}',
           'Search Index': indexList,
         })
-        .then((value) => showToast('Kemaskini berjaya'))
-        .catchError((error) => showToast('Gagal untuk kemaskini: $error'));
+        .then((value) =>
+            showToast('Kemaskini berjaya', position: ToastPosition.bottom))
+        .catchError((error) => showToast('Gagal untuk kemaskini: $error',
+            position: ToastPosition.bottom));
   }
 
   _editCustConfirmation(BuildContext context) {

@@ -84,7 +84,7 @@ class _NewCustomerDetailsState extends State<NewCustomerDetails> {
         },
         nama: widget.nama,
       ),
-      repairHistory(widget.databaseUID),
+      repairHistory(widget.databaseUID, widget.nama),
     ];
     return Hero(
       tag: widget.databaseUID,

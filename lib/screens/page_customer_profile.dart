@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:services_form/widget/card_customer_details.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 SliverChildListDelegate profile({
   String datUID,
@@ -61,12 +63,20 @@ SliverChildListDelegate profile({
         ),
       ),
       CardsCustomerDetails(
+        longPress: () {
+          Clipboard.setData(new ClipboardData(text: datUID));
+          showToast('Copy to clipboard', position: ToastPosition.bottom);
+        },
         icon: Icons.date_range,
         title: 'Database UID',
         subtitle: datUID,
         onPress: () {},
       ),
       CardsCustomerDetails(
+        longPress: () {
+          Clipboard.setData(new ClipboardData(text: noFon));
+          showToast('Copy to clipboard', position: ToastPosition.bottom);
+        },
         icon: Icons.phone,
         title: 'Nombor Telefon',
         subtitle: noFon,
@@ -75,6 +85,10 @@ SliverChildListDelegate profile({
         },
       ),
       CardsCustomerDetails(
+        longPress: () {
+          Clipboard.setData(new ClipboardData(text: noFon));
+          showToast('Copy to clipboard', position: ToastPosition.bottom);
+        },
         icon: Icons.message,
         title: 'Mesej',
         subtitle: noFon,
@@ -83,6 +97,10 @@ SliverChildListDelegate profile({
         },
       ),
       CardsCustomerDetails(
+        longPress: () {
+          Clipboard.setData(new ClipboardData(text: email));
+          showToast('Copy to clipboard', position: ToastPosition.bottom);
+        },
         icon: Icons.email,
         title: 'Email',
         subtitle: email,

@@ -30,7 +30,7 @@ class CardDetails extends StatelessWidget {
     return Card(
       elevation: 5,
       child: InkWell(
-        onTap: (){},
+        onTap: () {},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +74,7 @@ class CardDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$harga',
+                    'RM$harga',
                     style: TextStyle(
                       fontSize: 25,
                       color: Colors.grey,

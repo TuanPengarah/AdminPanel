@@ -95,7 +95,14 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                   ) {
                     if (!snapshot.hasData) {
                       return Center(
-                        child: Text('Loading jap'),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            Text('Loading jap'),
+                          ],
+                        ),
                       );
                     }
                     return ListView(

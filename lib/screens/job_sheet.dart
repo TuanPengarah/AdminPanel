@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:services_form/brain/smartphone_suggestion.dart';
+import 'package:services_form/brain/spareparts_suggestion.dart';
 import 'package:services_form/widget/text_bar.dart';
 import 'print.dart';
 import 'dart:math';
@@ -148,8 +150,12 @@ class _JobSheetState extends State<JobSheet> {
                               await _contactPicker.selectContact();
                           setState(() {
                             _contact = contact;
-                            nama.text = _contact.fullName.toUpperCase();
-                            phone.text = _contact.phoneNumber;
+                            try {
+                              nama.text = _contact.fullName.toUpperCase();
+                              phone.text = _contact.phoneNumber;
+                            } catch (e) {
+                              print(e);
+                            }
                           });
                         },
                         icon: Icon(Icons.contacts_outlined),
@@ -221,6 +227,19 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.emailAddress,
                       ),
                       TextBar(
+                        notSuggest: true,
+                        onClickSuggestion: (suggestion) {
+                          model.text = suggestion.toString().toUpperCase();
+                        },
+                        callBack: (pattern) {
+                          return SmartphoneSuggestion.getSuggestions(pattern);
+                        },
+                        builder: (context, suggestion) {
+                          return ListTile(
+                            leading: Icon(Icons.phone_android_sharp),
+                            title: Text(suggestion),
+                          );
+                        },
                         focus: false,
                         controll: model,
                         err: modelmiss
@@ -242,6 +261,20 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.text,
                       ),
                       TextBar(
+                        notSuggest: true,
+                        onClickSuggestion: (suggestion) {
+                          damage.text = suggestion.toString().toUpperCase();
+                        },
+                        callBack: (pattern) {
+                          return PartsSuggestion.getSuggestions(pattern);
+                        },
+                        builder: (context, suggestion) {
+                          return ListTile(
+                            leading: Icon(Icons.electrical_services_rounded),
+                            title: Text(suggestion),
+                            // subtitle: Text('${suggestion['id']}'),
+                          );
+                        },
                         focus: false,
                         controll: damage,
                         hintTitle: 'Kerosakkan',
@@ -279,7 +312,14 @@ class _JobSheetState extends State<JobSheet> {
     );
   }
 
+////Tambah ke database////
   addData() {
+    //cantumkan variable nama dengan UID
+    String _docid;
+    widget.editCustomer == false
+        ? _docid =
+            'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}'
+        : _docid = widget.passUID;
     pass.text.isEmpty ? pass.text = 'Tiada Password' : pass.text = pass.text;
 //convert tarikh dari peranti ke database
     String _tarikh = tarikh().toString();
@@ -297,11 +337,27 @@ class _JobSheetState extends State<JobSheet> {
       'Model': '${model.text}',
       'Password': '${pass.text}',
       'Kerosakkan': '${damage.text}',
-      'Harga': 'RM${angg.text}',
+      'Harga': int.parse(angg.text),
       'Remarks': '*${remarks.text}',
       'Tarikh': _tarikh,
       'Technician': 'Akid Fikri Azhar',
       'Status': 'Belum Selesai',
+      'timeStamp': FieldValue.serverTimestamp(),
+    };
+    Map<String, dynamic> myrepairID = {
+      'Database UID': _docid,
+      'Nama': '${nama.text}',
+      'No Phone': '${phone.text}',
+      'Percent': 0.0,
+      'MID': '${uid.toString()}',
+      'Model': '${model.text}',
+      'Password': '${pass.text}',
+      'Kerosakkan': '${damage.text}',
+      'Harga': int.parse(angg.text),
+      'Remarks': '*${remarks.text}',
+      'Tarikh': _tarikh,
+      'Technician': 'Akid Fikri Azhar',
+      'Status': 'In Queue',
       'timeStamp': FieldValue.serverTimestamp(),
     };
 //customer bio berformat JSON
@@ -313,22 +369,18 @@ class _JobSheetState extends State<JobSheet> {
       'Search Index': indexList,
     };
     try {
-      //cantumkan variable nama dengan UID
-      String _docid;
-      widget.editCustomer == false
-          ? _docid =
-              'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}'
-          : _docid = widget.passUID;
       //Tambah data collection (Customer Bio) ke database
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('customer');
       collectionReference
           .doc(_docid)
           .set(userData)
-          .then(
-              (value) => showToast('Job Sheet berjaya di masukkan ke database'))
-          .catchError((error) =>
-              showToast('Gagal untuk memasuki job sheet ke database: $error'));
+          .then((value) => showToast(
+              'Job Sheet berjaya di masukkan ke database',
+              position: ToastPosition.bottom))
+          .catchError((error) => showToast(
+              'Gagal untuk memasuki job sheet ke database: $error',
+              position: ToastPosition.bottom));
 
       //Tambah data sub-collection (Repair History) ke database
       FirebaseFirestore.instance
@@ -337,6 +389,12 @@ class _JobSheetState extends State<JobSheet> {
           .collection('repair history')
           .doc(uid.toString())
           .set(repairHistory);
+
+      //tambah ke MyrepairID
+      FirebaseFirestore.instance
+          .collection('MyrepairID')
+          .doc(uid.toString())
+          .set(myrepairID);
     } catch (e) {
       print(e);
     }
@@ -345,7 +403,10 @@ class _JobSheetState extends State<JobSheet> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("Batal"),
+      child: Text(
+        "Batal",
+        style: TextStyle(color: Colors.red),
+      ),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -354,7 +415,45 @@ class _JobSheetState extends State<JobSheet> {
       child: Text('Pasti'),
       onPressed: () {
         addData();
-        // databaseReference.push().set(bio.toJson());
+        Navigator.pop(context);
+        _printConfirmation(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('Adakah anda pasti'),
+      content: Text('Pastikan segala maklumat customer adalah betul!'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  _printConfirmation(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Batal",
+        style: TextStyle(color: Colors.red),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text('Print'),
+      onPressed: () {
+        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
           context,
@@ -376,8 +475,8 @@ class _JobSheetState extends State<JobSheet> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text('Adakah anda pasti'),
-      content: Text('Pastikan segala maklumat customer adalah betul!'),
+      title: Text('Print'),
+      content: Text('Adakah anda ingin print maklumat JobSheet ini?'),
       actions: [
         cancelButton,
         continueButton,

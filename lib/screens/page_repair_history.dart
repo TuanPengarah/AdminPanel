@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:services_form/screens/repprint.dart';
 import 'package:services_form/widget/card_details.dart';
 
 SliverChildListDelegate repairHistory(
   String passID,
   String passName,
+  String passPhone,
 ) {
   return SliverChildListDelegate(
     [
@@ -37,6 +39,22 @@ SliverChildListDelegate repairHistory(
                   technician: document['Technician'],
                   timestamp: document['timeStamp'],
                   password: document['Password'],
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) => Reprint(
+                          nama: passName,
+                          noPhone: passPhone,
+                          mid: document['MID'],
+                          model: document['Model'],
+                          kerosakkan: document['Kerosakkan'],
+                          price: document['Harga'],
+                          remarks: document['Remarks'],
+                        ),
+                      ),
+                    );
+                  },
                 );
               }).toList(),
             );

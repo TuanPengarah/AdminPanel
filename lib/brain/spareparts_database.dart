@@ -10,8 +10,15 @@ class BioSpareparts {
   String details;
   String date;
 
-  BioSpareparts(this.sparepart, this.type, this.supplier, this.quantity,
-      this.manufactor, this.details, this.date);
+  BioSpareparts(
+    this.sparepart,
+    this.type,
+    this.supplier,
+    this.quantity,
+    this.manufactor,
+    this.details,
+    this.date,
+  );
 
   BioSpareparts.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,

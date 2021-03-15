@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:services_form/screens/job_sheet.dart';
 
-buttomCustomerSheet(context) {
+buttomManagement(context) {
   showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -19,7 +18,7 @@ buttomCustomerSheet(context) {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Pangkalan Data Pelanggan',
+                  'Pangkalan Data Pengurusan',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -32,17 +31,10 @@ buttomCustomerSheet(context) {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => JobSheet(
-                          editCustomer: false,
-                        ),
-                      ),
-                    );
+                    Navigator.pushNamed(context, 'inventory');
                   },
                   child: Text(
-                    'Reka Jobsheet baru',
+                    'Semua Stok / Spareparts',
                     style: TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.w800,
@@ -50,21 +42,19 @@ buttomCustomerSheet(context) {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'allcustomer');
-                  },
+                  onPressed: () {},
                   child: Text(
-                    'Semua Customer',
+                    'Senarai Harga',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, 'pendingjob');
+                    // Navigator.pushNamed(context, 'pendingjob');
                   },
                   child: Text(
-                    'MyRepair ID (Pending Job)',
+                    'Jualan',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

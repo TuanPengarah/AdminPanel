@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:services_form/screens/add_sparepart.dart';
 import 'package:services_form/screens/all_customer.dart';
 import 'package:services_form/screens/home_screen.dart';
+import 'package:services_form/screens/inventory.dart';
 import 'package:services_form/screens/job_sheet.dart';
 import 'package:sizer/sizer.dart';
-import 'screens/print.dart';
 import 'screens/spareparts.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:oktoast/oktoast.dart';
@@ -63,13 +63,13 @@ class MyApp extends StatelessWidget {
                         debugShowCheckedModeBanner: false,
                         initialRoute: 'homescreen',
                         routes: {
-                          'print': (context) => Print(),
                           'homescreen': (context) => HomeScreen(),
                           'jobsheet': (context) => JobSheet(),
                           'spareparts': (context) => DatabaseSpareparts(),
                           'allcustomer': (context) => CustomerDatabase(),
                           'addsparepart': (context) => AddSparepart(),
                           'pendingjob': (context) => PendingJob(),
+                          'inventory': (context) => Inventory()
                         },
                       ),
                     ));

@@ -12,6 +12,7 @@ class CardDetails extends StatelessWidget {
   final tarikh;
   final technician;
   final timestamp;
+  final Function onPress;
 
   CardDetails(
       {this.harga,
@@ -23,14 +24,15 @@ class CardDetails extends StatelessWidget {
       this.status,
       this.tarikh,
       this.technician,
-      this.timestamp});
+      this.timestamp,
+      this.onPress});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
       child: InkWell(
-        onTap: () {},
+        onTap: onPress,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,

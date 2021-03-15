@@ -33,10 +33,8 @@ class _NewCustomerDetailsState extends State<NewCustomerDetails> {
 
   @override
   void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor:
-            Colors.black // navigation bar color // status bar color
-        ));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
     super.dispose();
   }
 
@@ -84,7 +82,7 @@ class _NewCustomerDetailsState extends State<NewCustomerDetails> {
         },
         nama: widget.nama,
       ),
-      repairHistory(widget.databaseUID, widget.nama),
+      repairHistory(widget.databaseUID, widget.nama, widget.nomborTelefon),
     ];
     return Hero(
       tag: widget.databaseUID,

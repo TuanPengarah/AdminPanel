@@ -11,21 +11,19 @@ class Print extends StatefulWidget {
   final dataname;
   final dataphone;
   final datamodel;
-  final datapass;
   final datadmg;
   final dataangg;
   final dataremarks;
   final datauid;
 
   Print(
-      {this.dataname,
-      this.dataphone,
-      this.datamodel,
-      this.datapass,
-      this.datadmg,
-      this.dataangg,
-      this.dataremarks,
-      this.datauid});
+      {@required this.dataname,
+      @required this.dataphone,
+      @required this.datamodel,
+      @required this.datadmg,
+      @required this.dataangg,
+      @required this.dataremarks,
+      @required this.datauid});
 
   @override
   _PrintState createState() => _PrintState();

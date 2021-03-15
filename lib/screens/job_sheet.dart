@@ -462,7 +462,6 @@ class _JobSheetState extends State<JobSheet> {
               dataname: nama.text,
               dataphone: phone.text,
               datamodel: model.text,
-              datapass: pass.text,
               datadmg: damage.text,
               dataangg: angg.text,
               dataremarks: remarks.text,

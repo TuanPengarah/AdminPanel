@@ -37,15 +37,16 @@ class MridUpdate {
 
     Map<String, dynamic> updateStatus = {
       'Percent': percentConverter,
+      'isPayment': false
     };
-    if (percentConverter == 1) {
-      FirebaseFirestore.instance
-          .collection('customer')
-          .doc(passUID)
-          .collection('repair history')
-          .doc(passID)
-          .update({'Status': 'Selesai'});
-    }
+    // if (percentConverter == 1) {
+    //   FirebaseFirestore.instance
+    //       .collection('customer')
+    //       .doc(passUID)
+    //       .collection('repair history')
+    //       .doc(passID)
+    //       .update({'Status': 'Selesai'});
+    // }
     //Update Percent Status
     FirebaseFirestore.instance
         .collection('MyrepairID')

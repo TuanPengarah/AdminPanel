@@ -263,16 +263,24 @@ class _EditMyRepairIDState extends State<EditMyRepairID> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('Repair Log'),
+                                          backgroundColor: Colors.grey[900],
+                                          title: Text(
+                                            'Repair Log',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                           content: repairLogDialog(widget.mid),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
-                                              child: Text('Okay',
-                                                  style: TextStyle(
-                                                      color: Colors.teal)),
+                                              child: Text(
+                                                'Okay',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
                                             )
                                           ],
                                         );

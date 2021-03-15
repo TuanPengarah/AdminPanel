@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'buttom_customer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import 'buttom_management.dart';
+
 class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class Button extends StatelessWidget {
             Future.delayed(
               const Duration(milliseconds: 190),
               () {
-                Navigator.pushNamed(context, 'spareparts');
+                buttomManagement(context);
               },
             );
           },
@@ -51,7 +53,7 @@ class Button extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                'Inventory',
+                'Pengurusan',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,

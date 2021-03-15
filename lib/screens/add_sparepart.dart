@@ -156,7 +156,7 @@ class _AddSparepartState extends State<AddSparepart> {
             TextBar(
               notSuggest: true,
               onClickSuggestion: (suggestion) {
-                csparepart.text = suggestion.toString();
+                csparepart.text = suggestion.toString().toUpperCase();
               },
               callBack: (pattern) {
                 return SmartphoneSuggestion.getSuggestions(pattern);
@@ -170,14 +170,18 @@ class _AddSparepartState extends State<AddSparepart> {
               controll: csparepart,
               hintTitle: 'Model',
               focus: false,
-              valueChange: (vmodel) {},
+              valueChange: (vmodel) {
+                if (csparepart.text != vmodel.toUpperCase())
+                  csparepart.value =
+                      csparepart.value.copyWith(text: vmodel.toUpperCase());
+              },
               keyType: TextInputType.name,
               err: _sparepartsmiss ? 'Sila masukkan model smartphone' : null,
             ),
             TextBar(
               notSuggest: true,
               onClickSuggestion: (suggestion) {
-                ctype.text = suggestion.toString();
+                ctype.text = suggestion.toString().toUpperCase();
               },
               callBack: (pattern) {
                 return PartsSuggestion.getSuggestions(pattern);
@@ -192,14 +196,17 @@ class _AddSparepartState extends State<AddSparepart> {
               controll: ctype,
               hintTitle: 'Jenis Spareparts',
               focus: false,
-              valueChange: (vtype) {},
+              valueChange: (vtype) {
+                if (ctype.text != vtype.toUpperCase())
+                  ctype.value = ctype.value.copyWith(text: vtype.toUpperCase());
+              },
               keyType: TextInputType.name,
               err: _typemiss ? 'Sila masukkan jenis spareparts' : null,
             ),
             TextBar(
               notSuggest: true,
               onClickSuggestion: (suggestion) {
-                cmanufactor.text = suggestion.toString();
+                cmanufactor.text = suggestion.toString().toUpperCase();
               },
               callBack: (pattern) {
                 return ManufactorSuggestion.getSuggestions(pattern);
@@ -214,7 +221,11 @@ class _AddSparepartState extends State<AddSparepart> {
               controll: cmanufactor,
               hintTitle: 'Kualiti Spareparts',
               focus: false,
-              valueChange: (vmanufactor) {},
+              valueChange: (vmanufactor) {
+                if (cmanufactor.text != vmanufactor.toUpperCase())
+                  cmanufactor.value = cmanufactor.value
+                      .copyWith(text: vmanufactor.toUpperCase());
+              },
               keyType: TextInputType.name,
               err:
                   _manufactor ? 'Sila masukkan jenis kualiti spareparts' : null,
@@ -224,7 +235,11 @@ class _AddSparepartState extends State<AddSparepart> {
               hintTitle: 'Maklumat Sparepart',
               hintEdit: 'cth: Warna, tarikh pengeluar battery, dll..',
               focus: false,
-              valueChange: (vmanufactor) {},
+              valueChange: (vmanufactor) {
+                if (cdetails.text != vmanufactor.toUpperCase())
+                  cdetails.value =
+                      cdetails.value.copyWith(text: vmanufactor.toUpperCase());
+              },
               keyType: TextInputType.name,
               err: _details ? 'Sila masukkan makluamat sparepart' : null,
             ),
@@ -232,7 +247,11 @@ class _AddSparepartState extends State<AddSparepart> {
               controll: cquantity,
               hintTitle: 'Kuantiti',
               focus: false,
-              valueChange: (vquantity) {},
+              valueChange: (vquantity) {
+                if (cquantity.text != vquantity.toUpperCase())
+                  cquantity.value =
+                      cquantity.value.copyWith(text: vquantity.toUpperCase());
+              },
               keyType: TextInputType.number,
               err: _quantitymiss ? 'Sila masukkan kuantiti' : null,
             ),
@@ -257,6 +276,8 @@ _formConfirmation(BuildContext context) {
       submit();
       Navigator.pop(context);
       Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pushNamed(context, 'inventory');
     },
   );
 

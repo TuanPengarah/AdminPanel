@@ -31,7 +31,7 @@ class _ReprintState extends State<Reprint> {
       appBar: AppBar(
         backgroundColor: Colors.teal,
         brightness: Brightness.dark,
-        title: Text('Maklumat'),
+        title: Text('Maklumat Resit'),
         actions: [
           IconButton(
             icon: Icon(Icons.print),

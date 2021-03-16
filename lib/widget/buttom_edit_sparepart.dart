@@ -31,7 +31,7 @@ class EditSparepart {
   final _csparepart = TextEditingController();
   final _csupplier = TextEditingController();
   final _cmodel = TextEditingController();
-  final _quantity = TextEditingController();
+  final _price = TextEditingController();
   final _manufactor = TextEditingController();
   final _details = TextEditingController();
   BioSpareparts bio;
@@ -169,8 +169,8 @@ class EditSparepart {
                 ),
                 TextBar(
                   focus: false,
-                  controll: _quantity,
-                  hintTitle: 'Masukkan kuantiti baru',
+                  controll: _price,
+                  hintTitle: 'Masukkan harga baru',
                   hintEdit: '$quantity',
                   keyType: TextInputType.number,
                   valueChange: (value) {},
@@ -238,9 +238,7 @@ class EditSparepart {
     _csupplier.text.isEmpty
         ? bio.supplier = supplier
         : bio.supplier = _csupplier.text.toString();
-    _quantity.text.isEmpty
-        ? bio.quantity = quantity
-        : bio.quantity = _quantity.text.toString();
+    _price.text.isEmpty ? bio.price = quantity : bio.price = _price.text;
     _manufactor.text.isEmpty
         ? bio.manufactor = manufactor
         : bio.manufactor = _manufactor.text.toString();

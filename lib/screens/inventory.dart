@@ -2,6 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:services_form/widget/buttom_edit_sparepart.dart';
+import 'package:show_hide_fab/show_hide_fab.dart';
+import 'package:oktoast/oktoast.dart';
 
 class Inventory extends StatefulWidget {
   @override
@@ -12,31 +14,66 @@ final dbRef = FirebaseDatabase.instance.reference().child("Spareparts");
 
 List<Map<dynamic, dynamic>> lists = [];
 // bool _isRefresh = false;
+ScrollController _controller;
+bool show = true;
+int _total = 0;
 
 class _InventoryState extends State<Inventory> {
   @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
+  }
+
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        show = false;
+        showToast('Jumlah semua spareparts: $_total',
+            position: ToastPosition.bottom, backgroundColor: Colors.blueGrey);
+      });
+    }
+
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        show = true;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 12,
+      length: 16,
       child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              Navigator.pushNamed(context, 'addsparepart');
-            },
+          floatingActionButton: ShowHideFAB(
+            animationDuration: Duration(milliseconds: 250),
+            shouldShow: show,
+            fab: FloatingActionButton(
+              child: Icon(Icons.add, color: Colors.white),
+              onPressed: () {
+                Navigator.pushNamed(context, 'addsparepart');
+              },
+            ),
           ),
           appBar: AppBar(
-            title: Text('Spareparts'),
+            title: Text('SpareParts'),
             centerTitle: true,
             brightness: Brightness.dark,
             actions: [
               IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => this.widget));
+                    setState(() {
+                      show = true;
+                    });
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (BuildContext context) => this.widget));
                   })
             ],
             bottom: TabBar(
@@ -52,6 +89,12 @@ class _InventoryState extends State<Inventory> {
                   text: 'Xiaomi',
                 ),
                 Tab(
+                  text: 'Redmi',
+                ),
+                Tab(
+                  text: 'Poco',
+                ),
+                Tab(
                   text: 'Samsung',
                 ),
                 Tab(
@@ -59,6 +102,12 @@ class _InventoryState extends State<Inventory> {
                 ),
                 Tab(
                   text: 'Oppo',
+                ),
+                Tab(
+                  text: 'Realme',
+                ),
+                Tab(
+                  text: 'OnePlus',
                 ),
                 Tab(
                   text: 'Vivo',
@@ -76,7 +125,7 @@ class _InventoryState extends State<Inventory> {
                   text: 'Nokia',
                 ),
                 Tab(
-                  text: 'Sony',
+                  text: 'Xperia',
                 ),
               ],
             ),
@@ -96,6 +145,14 @@ class _InventoryState extends State<Inventory> {
               ),
               SparepartsList(
                 isAll: false,
+                model: 'Redmi',
+              ),
+              SparepartsList(
+                isAll: false,
+                model: 'Poco',
+              ),
+              SparepartsList(
+                isAll: false,
                 model: 'Samsung',
               ),
               SparepartsList(
@@ -105,6 +162,14 @@ class _InventoryState extends State<Inventory> {
               SparepartsList(
                 isAll: false,
                 model: 'Oppo',
+              ),
+              SparepartsList(
+                isAll: false,
+                model: 'Realme',
+              ),
+              SparepartsList(
+                isAll: false,
+                model: 'OnePlus',
               ),
               SparepartsList(
                 isAll: false,
@@ -176,7 +241,7 @@ class _SparepartsListState extends State<SparepartsList> {
                     color: Colors.grey,
                   ),
                   Text(
-                    'Tiada Spareparts',
+                    'Takde sparepart tuan',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey,
@@ -187,20 +252,44 @@ class _SparepartsListState extends State<SparepartsList> {
             }
 
             return new ListView.builder(
+                controller: _controller,
                 shrinkWrap: true,
                 itemCount: lists.length,
                 itemBuilder: (BuildContext context, int index) {
                   String title =
                       '${lists[index]["Jenis Spareparts"]} ${lists[index]["Model"]}';
 
+                  int _sales = 0;
+                  _total = lists.length;
+                  formatHarga() {
+                    int i = int.parse(lists[index]['Harga']);
+                    if (i <= 20) {
+                      i = i + 50;
+                      return _sales = i;
+                    } else if (i <= 100) {
+                      i = i * 2;
+                      return _sales = i;
+                    } else if (i > 100 && i < 350) {
+                      i = i * 2 - 20;
+                      return _sales = i;
+                    } else if (i > 350) {
+                      i = i + 180;
+                      return _sales = i;
+                    }
+                  }
+
+                  formatHarga();
                   return Slidable(
                     key: Key(index.toString()),
                     actionPane: SlidableDrawerActionPane(),
                     actionExtentRatio: 0.25,
                     child: Container(
                       child: ListTile(
+                        onTap: () {
+                          formatHarga();
+                        },
                         onLongPress: () {
-                          print(values.keys.toList()[index]);
+                          formatHarga();
                         },
                         leading: CircleAvatar(
                           child: Text(
@@ -215,11 +304,11 @@ class _SparepartsListState extends State<SparepartsList> {
                           '$title (${lists[index]["Kualiti"]})',
                         ),
                         trailing: Text(
-                          'x${lists[index]["Kuantiti"]}',
+                          'RM${_sales.toString()}',
                           style: TextStyle(color: Colors.grey.shade700),
                         ),
                         subtitle: Text("""${lists[index]["Maklumat Spareparts"]}
-${lists[index]["Tarikh"]}"""),
+${lists[index]["Tarikh"]} | H.Supplier RM${lists[index]["Harga"]}"""),
                         isThreeLine: true,
                       ),
                     ),
@@ -235,9 +324,9 @@ ${lists[index]["Tarikh"]}"""),
                             model: lists[index]["Model"],
                             supplier: lists[index]["Supplier"],
                             sparepart: lists[index]["Jenis Spareparts"],
-                            quantity: lists[index]["Kuantiti"],
+                            quantity: lists[index]["Harga"],
                             details: lists[index]["Maklumat Spareparts"],
-                            manufactor: lists[index]["Kuantiti"],
+                            manufactor: lists[index]["Kualiti"],
                           ).showEditdb(context);
                         },
                       ),
@@ -302,7 +391,21 @@ ${lists[index]["Tarikh"]}"""),
                   );
                 });
           }
-          return CircularProgressIndicator();
+          return Container(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text('Loading Jap...'),
+                  ),
+                ],
+              ),
+            ),
+          );
         });
   }
 }

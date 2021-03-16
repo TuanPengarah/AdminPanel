@@ -48,6 +48,7 @@ dependencies:
   flutter_fluid_slider: ^1.0.3
   percent_indicator: ^2.1.9+1
   dismissible_page: ^0.6.1
+  show_hide_fab: ^0.1.1
 
 dev_dependencies:
   flutter_test:

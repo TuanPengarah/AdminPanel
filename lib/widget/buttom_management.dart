@@ -44,7 +44,7 @@ buttomManagement(context) {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    'Senarai Harga',
+                    'Price Calculator',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

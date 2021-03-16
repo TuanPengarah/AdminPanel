@@ -5,19 +5,19 @@ class BioSpareparts {
   String sparepart;
   String type;
   String supplier;
-  String quantity;
   String manufactor;
   String details;
   String date;
+  String price;
 
   BioSpareparts(
     this.sparepart,
     this.type,
     this.supplier,
-    this.quantity,
     this.manufactor,
     this.details,
     this.date,
+    this.price,
   );
 
   BioSpareparts.fromSnapshot(DataSnapshot snapshot)
@@ -25,20 +25,20 @@ class BioSpareparts {
         sparepart = snapshot.value['Model'],
         type = snapshot.value['Jenis Spareparts'],
         supplier = snapshot.value['Supplier'],
-        quantity = snapshot.value['Kuantiti'],
         manufactor = snapshot.value['Kualiti'],
         details = snapshot.value['Maklumat Spareparts'],
-        date = snapshot.value['Tarikh'];
+        date = snapshot.value['Tarikh'],
+        price = snapshot.value['Harga'];
 
   toJson() {
     return {
       'Model': sparepart,
       'Jenis Spareparts': type,
       'Supplier': supplier,
-      'Kuantiti': quantity,
       'Kualiti': manufactor,
       'Maklumat Spareparts': details,
       'Tarikh': date,
+      'Harga': price,
     };
   }
 }

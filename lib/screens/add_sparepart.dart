@@ -28,6 +28,7 @@ final csupplier = TextEditingController();
 final cquantity = TextEditingController();
 final cmanufactor = TextEditingController();
 final cdetails = TextEditingController();
+final cprice = TextEditingController();
 
 List supplierlist = [
   {"name": "MG", "id": "Mobile Gadget Resources"},
@@ -49,6 +50,7 @@ class _AddSparepartState extends State<AddSparepart> {
   bool _quantitymiss = false;
   bool _manufactor = false;
   bool _details = false;
+  bool _price = false;
 
   @override
   void dispose() {
@@ -109,19 +111,21 @@ class _AddSparepartState extends State<AddSparepart> {
                 : _quantitymiss = false;
             cmanufactor.text.isEmpty ? _manufactor = true : _manufactor = false;
             cdetails.text.isEmpty ? _details = true : _details = false;
+            cprice.text.isEmpty ? _details = true : _details = false;
           });
           if (_sparepartsmiss == false &&
               _suppliermiss == false &&
               _typemiss == false &&
               _quantitymiss == false &&
               _manufactor == false &&
-              _details == false) {
+              _details == false &&
+              _price == false) {
             _formConfirmation(context);
           }
         },
       ),
       appBar: AppBar(
-        title: Text('Add Sparepart'),
+        title: Text('Tambah Sparepart'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -255,6 +259,19 @@ class _AddSparepartState extends State<AddSparepart> {
               keyType: TextInputType.number,
               err: _quantitymiss ? 'Sila masukkan kuantiti' : null,
             ),
+            TextBar(
+              controll: cprice,
+              hintTitle: 'Harga Supplier',
+              focus: false,
+              valueChange: (vquantity) {
+                if (cprice.text != vquantity.toUpperCase())
+                  cprice.value =
+                      cprice.value.copyWith(text: vquantity.toUpperCase());
+              },
+              keyType: TextInputType.number,
+              err: _quantitymiss ? 'Sila masukkan harga supplier' : null,
+            ),
+            SizedBox(height: 80),
           ],
         ),
       ),
@@ -273,7 +290,9 @@ _formConfirmation(BuildContext context) {
   Widget continueButton = TextButton(
     child: Text('Pasti'),
     onPressed: () {
-      submit();
+      for (int i = 0; i < int.parse(cquantity.text); i++) {
+        submit();
+      }
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
@@ -305,10 +324,10 @@ void submit() {
   bio.sparepart = csparepart.text.toString();
   bio.type = ctype.text.toString();
   bio.supplier = csupplier.text.toString();
-  bio.quantity = cquantity.text.toString();
   bio.manufactor = cmanufactor.text.toString();
   bio.details = cdetails.text.toString();
   bio.date = _tarikh;
+  bio.price = cprice.text;
   databaseReference
       .push()
       .set(bio.toJson())

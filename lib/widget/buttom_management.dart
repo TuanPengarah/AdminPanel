@@ -51,7 +51,7 @@ buttomManagement(context) {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Navigator.pushNamed(context, 'pendingjob');
+                    Navigator.pushNamed(context, 'sales');
                   },
                   child: Text(
                     'Jualan',

@@ -6,6 +6,9 @@ import 'package:show_hide_fab/show_hide_fab.dart';
 import 'package:oktoast/oktoast.dart';
 
 class Inventory extends StatefulWidget {
+  final bool choose;
+
+  Inventory({this.choose});
   @override
   _InventoryState createState() => _InventoryState();
 }
@@ -134,66 +137,82 @@ class _InventoryState extends State<Inventory> {
             children: [
               SparepartsList(
                 isAll: true,
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'iPhone',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Xiaomi',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Redmi',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Poco',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Samsung',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Huawei',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Oppo',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Realme',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'OnePlus',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Vivo',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Lenovo',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'HTC',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Asus',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Nokia',
+                pilih: widget.choose,
               ),
               SparepartsList(
                 isAll: false,
                 model: 'Sony',
+                pilih: widget.choose,
               ),
             ],
           )),
@@ -204,7 +223,8 @@ class _InventoryState extends State<Inventory> {
 class SparepartsList extends StatefulWidget {
   final String model;
   final bool isAll;
-  SparepartsList({this.model, this.isAll});
+  final bool pilih;
+  SparepartsList({this.model, this.isAll, this.pilih});
 
   @override
   _SparepartsListState createState() => _SparepartsListState();
@@ -259,6 +279,8 @@ class _SparepartsListState extends State<SparepartsList> {
                   String title =
                       '${lists[index]["Jenis Spareparts"]} ${lists[index]["Model"]}';
 
+                  String passTitle = '$title (${lists[index]["Kualiti"]})';
+
                   int _sales = 0;
                   _total = lists.length;
                   formatHarga() {
@@ -286,11 +308,15 @@ class _SparepartsListState extends State<SparepartsList> {
                     child: Container(
                       child: ListTile(
                         onTap: () {
-                          formatHarga();
+                          if (widget.pilih == true) {
+                            List<String> list = [];
+                            list.add(passTitle);
+                            list.add(values.keys.toList()[index]);
+                            list.add(_sales.toString());
+                            Navigator.pop(context, list);
+                          }
                         },
-                        onLongPress: () {
-                          formatHarga();
-                        },
+                        onLongPress: () {},
                         leading: CircleAvatar(
                           child: Text(
                             lists[index]["Supplier"],

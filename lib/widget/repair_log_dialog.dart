@@ -20,7 +20,7 @@ Widget repairLogDialog(mid) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(),
-                  Text('Loading jap'),
+                  Text('Loading jap', style: TextStyle(color: Colors.white)),
                 ],
               ),
             );

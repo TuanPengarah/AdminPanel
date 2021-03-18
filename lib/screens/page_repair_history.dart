@@ -21,8 +21,20 @@ SliverChildListDelegate repairHistory(
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
-                child: Text('Loading jap'),
+              return Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text('Loading Jap...'),
+                      ),
+                    ],
+                  ),
+                ),
               );
             }
 
@@ -74,8 +86,16 @@ SliverChildListDelegate repairHistory(
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-              child: Text('Loading jap'),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text('Loading Jap...'),
+                ),
+              ],
             );
           }
           double sum = 0.0;

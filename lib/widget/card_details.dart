@@ -42,8 +42,17 @@ class CardDetails extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(model, style: TextStyle(fontSize: 20)),
-                  Text(mid, style: TextStyle(fontSize: 13, color: Colors.grey)),
+                  Flexible(
+                    child: Text(
+                      model,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Text(
+                    mid,
+                    style: TextStyle(fontSize: 13, color: Colors.grey),
+                  ),
                 ],
               ),
             ),

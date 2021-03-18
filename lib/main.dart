@@ -6,8 +6,8 @@ import 'package:services_form/screens/all_customer.dart';
 import 'package:services_form/screens/home_screen.dart';
 import 'package:services_form/screens/inventory.dart';
 import 'package:services_form/screens/job_sheet.dart';
+import 'package:services_form/screens/sales_pending_payment.dart';
 import 'package:sizer/sizer.dart';
-import 'screens/spareparts.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:oktoast/oktoast.dart';
 import 'screens/pending_job.dart';
@@ -65,11 +65,11 @@ class MyApp extends StatelessWidget {
                         routes: {
                           'homescreen': (context) => HomeScreen(),
                           'jobsheet': (context) => JobSheet(),
-                          'spareparts': (context) => DatabaseSpareparts(),
                           'allcustomer': (context) => CustomerDatabase(),
                           'addsparepart': (context) => AddSparepart(),
                           'pendingjob': (context) => PendingJob(),
-                          'inventory': (context) => Inventory()
+                          'inventory': (context) => Inventory(),
+                          'sales': (context) => SalesPendingPayments(),
                         },
                       ),
                     ));

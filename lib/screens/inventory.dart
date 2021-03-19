@@ -313,6 +313,7 @@ class _SparepartsListState extends State<SparepartsList> {
                             list.add(passTitle);
                             list.add(values.keys.toList()[index]);
                             list.add(_sales.toString());
+                            list.add(lists[index]["Harga"]);
                             Navigator.pop(context, list);
                           }
                         },

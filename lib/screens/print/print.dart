@@ -59,6 +59,9 @@ class _PrintState extends State<Print> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
     return Scaffold(
       appBar: AppBar(title: Text('Print resit'), brightness: Brightness.dark),
       body: _devices.isEmpty
@@ -80,7 +83,7 @@ class _PrintState extends State<Print> {
   }
 
   void initPrinter() {
-    _printerManager.startScan(Duration(seconds: 4));
+    _printerManager.startScan(Duration(seconds: 3));
     _printerManager.scanResults.listen((val) {
       print(val);
       if (!mounted) return;

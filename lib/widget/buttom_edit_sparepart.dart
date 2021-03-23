@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:services_form/brain/quality_suggestion.dart';
 import 'package:services_form/brain/smartphone_suggestion.dart';
@@ -46,6 +47,14 @@ class EditSparepart {
   ];
 
   showEditdb(context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor:
+            isDarkMode == true ? Colors.grey[900] : Colors.white,
+        systemNavigationBarIconBrightness:
+            isDarkMode == true ? Brightness.light : Brightness.dark));
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -213,7 +222,11 @@ class EditSparepart {
           ),
         );
       },
-    );
+    ).whenComplete(() {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.blueGrey,
+          systemNavigationBarIconBrightness: Brightness.light));
+    });
   }
 
   void updateUser() async {

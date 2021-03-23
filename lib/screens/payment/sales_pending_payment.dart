@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:services_form/widget/card_payment.dart';
 import 'package:flutter/services.dart';
-import 'package:services_form/screens/transaction_setting.dart';
+import 'package:services_form/screens/payment/transaction_setting.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 
 class SalesPendingPayments extends StatefulWidget {
@@ -11,6 +11,19 @@ class SalesPendingPayments extends StatefulWidget {
 }
 
 class _SalesPendingPaymentsState extends State<SalesPendingPayments> {
+  final dbInstance = FirebaseFirestore.instance
+      .collection('MyrepairID')
+      .where('Percent', isEqualTo: 1)
+      .where('isPayment', isEqualTo: false);
+
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +35,7 @@ class _SalesPendingPaymentsState extends State<SalesPendingPayments> {
       body: Center(
         child: Container(
             child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('MyrepairID')
-              .where('Percent', isEqualTo: 1)
-              .where('isPayment', isEqualTo: false)
-              .snapshots(),
+          stream: dbInstance.snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -41,6 +50,22 @@ class _SalesPendingPaymentsState extends State<SalesPendingPayments> {
                   ),
                 ],
               );
+            } else if (snapshot.data.docs.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.money_off_sharp, color: Colors.grey, size: 99),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'Takde sales tuan',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
             return ListView(
               children: snapshot.data.docs.map(
@@ -50,6 +75,7 @@ class _SalesPendingPaymentsState extends State<SalesPendingPayments> {
                         Future.delayed(const Duration(milliseconds: 200), () {
                           context.pushTransparentRoute(
                             TransactionSetting(
+                                uid: document['Database UID'],
                                 noPhone: document['No Phone'],
                                 mid: document.id,
                                 model: document['Model'],

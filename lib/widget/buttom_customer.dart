@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:services_form/screens/job_sheet.dart';
+import 'package:flutter/services.dart';
+import 'file:///C:/Users/akidf/AndroidStudioProjects/services_form/lib/screens/jobsheet/job_sheet.dart';
 
 buttomCustomerSheet(context) {
+  bool isDarkMode =
+      MediaQuery.of(context).platformBrightness == Brightness.dark;
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor:
+          isDarkMode == true ? Colors.grey[900] : Colors.white,
+      systemNavigationBarIconBrightness:
+          isDarkMode == true ? Brightness.light : Brightness.dark));
   showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -51,6 +60,7 @@ buttomCustomerSheet(context) {
                 ),
                 TextButton(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, 'allcustomer');
                   },
                   child: Text(
@@ -61,6 +71,7 @@ buttomCustomerSheet(context) {
                 ),
                 TextButton(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, 'pendingjob');
                   },
                   child: Text(
@@ -76,5 +87,9 @@ buttomCustomerSheet(context) {
             ),
           ],
         );
-      });
+      }).whenComplete(() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
+  });
 }

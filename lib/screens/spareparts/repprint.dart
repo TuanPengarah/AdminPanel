@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:services_form/screens/print.dart';
+import 'package:services_form/screens/print/print.dart';
 
 class Reprint extends StatefulWidget {
   final nama;

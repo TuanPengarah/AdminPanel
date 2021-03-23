@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:services_form/brain/smartphone_suggestion.dart';
 import 'package:services_form/brain/spareparts_suggestion.dart';
 import 'package:services_form/widget/text_bar.dart';
-import 'print.dart';
+import '../print/print.dart';
 import 'dart:math';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -358,6 +358,7 @@ class _JobSheetState extends State<JobSheet> {
       'Tarikh': _tarikh,
       'Technician': 'Akid Fikri Azhar',
       'Status': 'In Queue',
+      'isPayment': false,
       'timeStamp': FieldValue.serverTimestamp(),
     };
 //customer bio berformat JSON

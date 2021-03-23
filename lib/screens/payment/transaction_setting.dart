@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dismissible_page/dismissible_page.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:services_form/brain/constant.dart';
+import 'package:services_form/screens/payment/payment_complete.dart';
 import 'package:services_form/widget/repair_log_dialog.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:oktoast/oktoast.dart';
-
-import 'inventory.dart';
+import '../spareparts/inventory.dart';
 
 class TransactionSetting extends StatefulWidget {
   final mid;
@@ -34,7 +37,7 @@ class TransactionSetting extends StatefulWidget {
 class _TransactionSettingState extends State<TransactionSetting> {
   final _cCash = TextEditingController();
   String _titleSpareparts = 'Klik Sini...';
-  String _uidSpareparts = '';
+  String _uidSpareparts;
   int _hargaSpareparts = 0;
   String _hariWaranti;
   String _hariBulan;
@@ -42,16 +45,74 @@ class _TransactionSettingState extends State<TransactionSetting> {
   int _suggestHarga = 0;
   int _hargaAsal = 0;
   int _hargaSupplier = 0;
+  String _tarikhSekarang;
+
+  //generate untuk tarikh baru (Device Time)
+  tarikh() {
+    var now = new DateTime.now();
+    var formatter = new DateFormat('dd-MM-yyyy');
+    return formatter.format(now);
+  }
+
+  _updateDatabase() {
+    //BUANG LIST SPAREPART YANG TELAH PAKAI
+    if (_uidSpareparts != null) {
+      FirebaseDatabase.instance
+          .reference()
+          .child('Spareparts')
+          .child(_uidSpareparts)
+          .remove();
+    }
+    //UPDATE STATUS isPayment PADA MYREPAIR ID
+    FirebaseFirestore.instance
+        .collection('MyrepairID')
+        .doc(widget.mid)
+        .update({'isPayment': true});
+
+    //UPDATE STATU PADA REPAIR HISTORY
+    Map<String, dynamic> updateRH = {
+      'Status': 'Selesai',
+      'Harga': int.parse(_cCash.text),
+    };
+    FirebaseFirestore.instance
+        .collection('customer')
+        .doc(widget.uid)
+        .collection('repair history')
+        .doc(widget.mid)
+        .update(updateRH);
+
+    //TAMBAH DOC PADA CASHFLOW
+    Map<String, dynamic> cashFlow = {
+      'Nama': '${widget.nama}',
+      'Model': '${widget.model}',
+      'Repair': '$_titleSpareparts',
+      'Harga': int.parse(_cCash.text),
+      'Harga Supplier': _hargaSupplier,
+      'Waranti': '$_hariWaranti $_hariBulan',
+      'Waranti Mula': '$_tarikhSekarang',
+      'Waranti Akhir': '$_tempohWaranti',
+    };
+
+    FirebaseFirestore.instance
+        .collection('cashFlow')
+        .doc(widget.mid)
+        .set(cashFlow);
+  }
 
   @override
   void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
     super.dispose();
   }
 
   void dapatWaranti() {
-    if (_hariWaranti == '1' && _hariBulan == 'Bulan') {
+    if (_hariWaranti == '-' && _hariBulan == 'Tiada') {
+      _suggestHarga = 0;
+      var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+      _tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
+    } else if (_hariWaranti == '1' && _hariBulan == 'Bulan') {
       _suggestHarga = 0;
       _suggestionAI();
       var jiffy9 = Jiffy()..add(duration: Duration(days: 30));
@@ -106,6 +167,8 @@ class _TransactionSettingState extends State<TransactionSetting> {
 
   @override
   void initState() {
+    _tarikhSekarang = tarikh();
+    print(_tarikhSekarang);
     _hariWaranti = '1';
     _hariBulan = 'Bulan';
     _cCash.text = widget.price.toString();
@@ -148,12 +211,76 @@ class _TransactionSettingState extends State<TransactionSetting> {
     }
   }
 
+  _buyingConfirmation(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Batal",
+        style: TextStyle(color: Colors.red),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text('Pasti'),
+      onPressed: () {
+        _updateDatabase();
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PaymentsCompleted(
+              mid: widget.mid,
+              nama: widget.nama,
+              model: widget.model,
+              noPhone: widget.noPhone,
+              warantiStart: _tarikhSekarang,
+              warantiAkhir: _tempohWaranti,
+              harga: _cCash.text,
+              kerosakkan: widget.kerosakkan,
+              tukarParts: _titleSpareparts,
+              warantiText: '$_hariWaranti $_hariBulan',
+            ),
+          ),
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('Adakah anda pasti?'),
+      content: Text('Pastikan segala maklumat resit pembayaran adalah betul!'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   _showSparepartOption(context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.dark));
+        systemNavigationBarColor:
+            isDarkMode == true ? Colors.grey[900] : Colors.white,
+        systemNavigationBarIconBrightness:
+            isDarkMode == true ? Brightness.light : Brightness.dark));
     showModalBottomSheet(
         context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
         builder: (BuildContext c) {
           return Wrap(children: [
             Center(
@@ -212,8 +339,8 @@ class _TransactionSettingState extends State<TransactionSetting> {
                           _hargaSpareparts = 30;
                           _hargaAsal = 50;
                           _titleSpareparts = 'Upah Pasang/Servis';
-                          _hariWaranti = '1';
-                          _hariBulan = 'Minggu';
+                          _hariWaranti = '-';
+                          _hariBulan = 'Tiada';
                           dapatWaranti();
                         });
                         Navigator.pop(context);
@@ -260,10 +387,11 @@ class _TransactionSettingState extends State<TransactionSetting> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 30.0),
+                        padding: const EdgeInsets.only(bottom: 15.0),
                         child: IconButton(
-                          iconSize: 35,
-                          icon: Icon(Icons.close, color: Colors.white),
+                          iconSize: 28,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: Colors.white),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -332,7 +460,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
                               elevation: 7,
                               child: Container(
                                 width: 400,
-                                height: 510,
+                                height: 480,
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Column(
@@ -444,6 +572,10 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                                     'display': '3',
                                                     'value': '3',
                                                   },
+                                                  {
+                                                    'display': '-',
+                                                    'value': '-',
+                                                  },
                                                 ],
                                                 textField: 'display',
                                                 valueField: 'value',
@@ -452,6 +584,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                           ),
                                           SizedBox(width: 10),
                                           Expanded(
+                                            flex: 2,
                                             child: Form(
                                               child: DropDownFormField(
                                                 titleText: 'Pilih Waranti',
@@ -480,6 +613,10 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                                     'display': 'Bulan',
                                                     'value': 'Bulan',
                                                   },
+                                                  {
+                                                    'display': 'Tiada',
+                                                    'value': 'Tiada',
+                                                  },
                                                 ],
                                                 textField: 'display',
                                                 valueField: 'value',
@@ -488,14 +625,22 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                           ),
                                         ],
                                       ),
-                                      Text(
-                                        'Tempoh waranti sah sehingga: '
-                                        '$_tempohWaranti',
-                                        style: TextStyle(color: Colors.grey),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 3.0),
+                                        child: Center(
+                                          child: Text(
+                                            'Tempoh waranti sah sehingga: '
+                                            '$_tempohWaranti',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        ),
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(top: 15.0),
+                                            const EdgeInsets.only(top: 5.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -544,9 +689,9 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(top: 32.0),
+                                            const EdgeInsets.only(top: 15.0),
                                         child: SizedBox(
-                                          height: 48,
+                                          height: 45,
                                           width: double.infinity,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
@@ -560,7 +705,8 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                               _titleSpareparts == 'Klik Sini...'
                                                   ? showToast('Sila masukkan '
                                                       'jenis spareparts')
-                                                  : null;
+                                                  : _buyingConfirmation(
+                                                      context);
                                             },
                                           ),
                                         ),

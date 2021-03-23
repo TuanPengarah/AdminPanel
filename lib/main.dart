@@ -1,16 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:services_form/screens/add_sparepart.dart';
-import 'package:services_form/screens/all_customer.dart';
-import 'package:services_form/screens/home_screen.dart';
-import 'package:services_form/screens/inventory.dart';
-import 'package:services_form/screens/job_sheet.dart';
-import 'package:services_form/screens/sales_pending_payment.dart';
+import 'package:services_form/screens/spareparts/add_sparepart.dart';
+import 'package:services_form/screens/customer/all_customer.dart';
+import 'package:services_form/screens/home/home_screen.dart';
+import 'package:services_form/screens/spareparts/inventory.dart';
+import 'package:services_form/screens/jobsheet/job_sheet.dart';
+import 'package:services_form/screens/payment/sales_pending_payment.dart';
 import 'package:sizer/sizer.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:oktoast/oktoast.dart';
-import 'screens/pending_job.dart';
+import 'screens/pendingjob/pending_job.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

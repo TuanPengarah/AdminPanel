@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:services_form/screens/job_sheet.dart';
-import 'package:services_form/screens/page_customer_profile.dart';
-import 'package:services_form/screens/page_repair_history.dart';
+import 'package:services_form/screens/jobsheet/job_sheet.dart';
+import 'package:services_form/screens/customer/page_customer_profile.dart';
+import 'package:services_form/screens/customer/page_repair_history.dart';
 import 'package:services_form/widget/buttom_edit_customer.dart';
 import 'package:services_form/widget/confirmation_delete_customer.dart';
 
@@ -33,8 +33,9 @@ class _NewCustomerDetailsState extends State<NewCustomerDetails> {
 
   @override
   void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
     super.dispose();
   }
 

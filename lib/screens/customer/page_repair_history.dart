@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:services_form/screens/repprint.dart';
+import 'package:services_form/screens/spareparts/repprint.dart';
 import 'package:services_form/widget/card_details.dart';
 
 SliverChildListDelegate repairHistory(

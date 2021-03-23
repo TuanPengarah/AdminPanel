@@ -1,8 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:services_form/widget/buttom_edit_sparepart.dart';
-import 'package:show_hide_fab/show_hide_fab.dart';
 import 'package:oktoast/oktoast.dart';
 
 class Inventory extends StatefulWidget {
@@ -16,9 +16,7 @@ class Inventory extends StatefulWidget {
 final dbRef = FirebaseDatabase.instance.reference().child("Spareparts");
 
 List<Map<dynamic, dynamic>> lists = [];
-// bool _isRefresh = false;
 ScrollController _controller;
-bool show = true;
 int _total = 0;
 
 class _InventoryState extends State<Inventory> {
@@ -29,11 +27,17 @@ class _InventoryState extends State<Inventory> {
     super.initState();
   }
 
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
+    super.dispose();
+  }
+
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
       setState(() {
-        show = false;
         showToast('Jumlah semua spareparts: $_total',
             position: ToastPosition.bottom, backgroundColor: Colors.blueGrey);
       });
@@ -41,9 +45,7 @@ class _InventoryState extends State<Inventory> {
 
     if (_controller.offset <= _controller.position.minScrollExtent &&
         !_controller.position.outOfRange) {
-      setState(() {
-        show = true;
-      });
+      setState(() {});
     }
   }
 
@@ -52,15 +54,11 @@ class _InventoryState extends State<Inventory> {
     return DefaultTabController(
       length: 16,
       child: Scaffold(
-          floatingActionButton: ShowHideFAB(
-            animationDuration: Duration(milliseconds: 250),
-            shouldShow: show,
-            fab: FloatingActionButton(
-              child: Icon(Icons.add, color: Colors.white),
-              onPressed: () {
-                Navigator.pushNamed(context, 'addsparepart');
-              },
-            ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, 'addsparepart');
+            },
           ),
           appBar: AppBar(
             title: Text('SpareParts'),
@@ -70,9 +68,7 @@ class _InventoryState extends State<Inventory> {
               IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    setState(() {
-                      show = true;
-                    });
+                    setState(() {});
                     // Navigator.pushReplacement(
                     //     context,
                     //     MaterialPageRoute(
@@ -272,6 +268,7 @@ class _SparepartsListState extends State<SparepartsList> {
             }
 
             return new ListView.builder(
+                physics: new BouncingScrollPhysics(),
                 controller: _controller,
                 shrinkWrap: true,
                 itemCount: lists.length,

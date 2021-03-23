@@ -7,3 +7,6 @@ const kGreen = Color(0xff1de9b6);
 const subTitle = TextStyle(
   color: Colors.grey,
 );
+
+//payments complete font color
+const kCompColor = Color(0xff525d71);

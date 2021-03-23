@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_letter/avatar_letter.dart';
-import 'package:services_form/screens/job_sheet.dart';
+import 'package:services_form/screens/jobsheet/job_sheet.dart';
 import 'package:services_form/widget/buttom_edit_customer.dart';
 import 'package:services_form/widget/card_details.dart';
 import 'package:services_form/widget/confirmation_delete_customer.dart';

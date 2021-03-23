@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:services_form/screens/job_sheet.dart';
-import 'package:services_form/screens/new_customer_details.dart';
-import 'customer_details.dart';
+import 'package:services_form/screens/jobsheet/job_sheet.dart';
+import 'package:services_form/screens/customer/new_customer_details.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 
 class CustomerDatabase extends StatefulWidget {
@@ -104,6 +103,23 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                           ],
                         ),
                       );
+                    } else if (snapshot.data.docs.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.phone_android,
+                                color: Colors.grey, size: 99),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                'Customer takde tuan',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     }
                     return ListView(
                       children: snapshot.data.docs.map((document) {
@@ -128,9 +144,9 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                           onTap: () {
                             SystemChrome.setSystemUIOverlayStyle(
                                 SystemUiOverlayStyle(
-                                    systemNavigationBarColor: Colors
-                                        .blueGrey // navigation bar color // status bar color
-                                    ));
+                                    systemNavigationBarColor: Colors.blueGrey,
+                                    systemNavigationBarIconBrightness:
+                                        Brightness.light));
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -162,6 +178,23 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                       return Center(
                         child: Text('Loading jap'),
                       );
+                    } else if (snapshot.data.docs.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.youtube_searched_for,
+                                color: Colors.grey, size: 99),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                'Tak jumpa customer tuan',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     }
                     return ListView(
                       children: snapshot.data.docs.map((document) {
@@ -180,18 +213,19 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                           title: Text('' + document['Nama']),
                           subtitle: Text('' + document['No Phone']),
                           onTap: () {
+                            SystemChrome.setSystemUIOverlayStyle(
+                                SystemUiOverlayStyle(
+                                    systemNavigationBarColor: Colors.blueGrey,
+                                    systemNavigationBarIconBrightness:
+                                        Brightness.light));
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => CustomerDetails(
+                                builder: (_) => NewCustomerDetails(
                                   nama: document['Nama'],
-                                  phone: document['No Phone'],
-                                  model: document['Harga'],
-                                  id: document.id,
-                                  price: document['Search Index'],
+                                  databaseUID: document.id,
+                                  nomborTelefon: document['No Phone'],
                                   email: document['Email'],
-                                  remarks: document['Remarks'],
-                                  password: document['Password'],
                                 ),
                               ),
                             );

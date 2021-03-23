@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:services_form/widget/text_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oktoast/oktoast.dart';
@@ -18,6 +19,14 @@ class Editdb {
   CollectionReference user = FirebaseFirestore.instance.collection('customer');
 
   showEditdb(context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor:
+            isDarkMode == true ? Colors.grey[900] : Colors.white,
+        systemNavigationBarIconBrightness:
+            isDarkMode == true ? Brightness.light : Brightness.dark));
     showModalBottomSheet(
       context: context,
       // isScrollControlled: true,
@@ -108,7 +117,11 @@ class Editdb {
           ),
         );
       },
-    );
+    ).whenComplete(() {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.blueGrey,
+          systemNavigationBarIconBrightness: Brightness.light));
+    });
   }
 
   Future<void> updateUser() {

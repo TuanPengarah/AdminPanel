@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 buttomManagement(context) {
+  bool isDarkMode =
+      MediaQuery.of(context).platformBrightness == Brightness.dark;
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor:
+          isDarkMode == true ? Colors.grey[900] : Colors.white,
+      systemNavigationBarIconBrightness:
+          isDarkMode == true ? Brightness.light : Brightness.dark));
   showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -18,7 +27,7 @@ buttomManagement(context) {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Pangkalan Data Pengurusan',
+                  'Database Management',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -42,19 +51,33 @@ buttomManagement(context) {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text(
-                    'Price Calculator',
+                    'Price Calculator / Local DB ',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),
                 ),
                 TextButton(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, 'sales');
                   },
                   child: Text(
-                    'Jualan',
+                    'Sales',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, 'sales');
+                  },
+                  child: Text(
+                    'Cash Flow',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),
@@ -66,5 +89,9 @@ buttomManagement(context) {
             ),
           ],
         );
-      });
+      }).whenComplete(() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
+  });
 }

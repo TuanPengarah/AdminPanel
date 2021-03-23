@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:dismissible_page/dismissible_page.dart';
-import 'package:services_form/screens/myrepairid_control.dart';
+import 'package:services_form/screens/pendingjob/myrepairid_control.dart';
 
 class PendingJob extends StatefulWidget {
   @override
@@ -56,7 +56,9 @@ class _PendingJobState extends State<PendingJob> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('MyrepairID')
-              .orderBy('timeStamp')
+              .orderBy('isPayment', descending: false)
+              .where('isPayment', isNotEqualTo: true)
+              .orderBy('timeStamp', descending: false)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -67,7 +69,26 @@ class _PendingJobState extends State<PendingJob> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircularProgressIndicator(),
-                    Text('Loading jap'),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('Loading jap'),
+                    ),
+                  ],
+                ),
+              );
+            } else if (snapshot.data.docs.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.phone_android, color: Colors.grey, size: 99),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'Takde pending job tuan',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
                   ],
                 ),
               );

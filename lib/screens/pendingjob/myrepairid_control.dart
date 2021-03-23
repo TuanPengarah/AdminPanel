@@ -160,8 +160,9 @@ class _EditMyRepairIDState extends State<EditMyRepairID> {
   @override
   void dispose() {
     _autoSave == true ? _timer.cancel() : _start = 10;
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.blueGrey,
+        systemNavigationBarIconBrightness: Brightness.light));
     super.dispose();
   }
 

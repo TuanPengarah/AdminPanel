@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:services_form/brain/check_lock.dart';
 
 buttomManagement(context) {
   bool isDarkMode =
@@ -27,7 +29,7 @@ buttomManagement(context) {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Database Management',
+                  'Urus Aliran Sistem',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -66,15 +68,17 @@ buttomManagement(context) {
                     Navigator.pushNamed(context, 'sales');
                   },
                   child: Text(
-                    'Sales',
+                    'Point of Sale',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),
                 ),
                 TextButton(
                   onPressed: () {
+                    Provider.of<CheckLock>(context, listen: false).setLock =
+                        true;
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, 'sales');
+                    Navigator.pushNamed(context, 'cashflow');
                   },
                   child: Text(
                     'Cash Flow',

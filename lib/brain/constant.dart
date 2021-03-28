@@ -10,3 +10,7 @@ const subTitle = TextStyle(
 
 //payments complete font color
 const kCompColor = Color(0xff525d71);
+
+//sqlite path Android
+const String kcfLocation = '/data/user/0/com.affix'
+    '.services_form/app_flutter/CashFlow.db';

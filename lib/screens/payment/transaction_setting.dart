@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:services_form/brain/constant.dart';
+import 'package:services_form/brain/sqlite_services.dart';
 import 'package:services_form/screens/payment/payment_complete.dart';
 import 'package:services_form/widget/repair_log_dialog.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
@@ -46,12 +47,28 @@ class _TransactionSettingState extends State<TransactionSetting> {
   int _hargaAsal = 0;
   int _hargaSupplier = 0;
   String _tarikhSekarang;
+  CashFlow cashflow;
 
   //generate untuk tarikh baru (Device Time)
   tarikh() {
     var now = new DateTime.now();
-    var formatter = new DateFormat('dd-MM-yyyy');
+    var formatter = new DateFormat('dd-MM-yyyy | hh:mm a');
     return formatter.format(now);
+  }
+
+  void _localCF() {
+    if (cashflow == null) {
+      CashFlow cf = CashFlow(
+        dahBayar: 1,
+        price: int.parse(_cCash.text),
+        spareparts: '$_titleSpareparts',
+        tarikh: tarikh().toString(),
+      );
+      DBProvider.db.insert(cf).then((id) => {
+            print('tambah '
+                'ke database $id')
+          });
+    }
   }
 
   _updateDatabase() {
@@ -226,6 +243,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
       child: Text('Pasti'),
       onPressed: () {
         _updateDatabase();
+        _localCF();
         Navigator.pop(context);
         Navigator.push(
           context,

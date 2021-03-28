@@ -7,12 +7,15 @@ import 'package:services_form/brain/smartphone_suggestion.dart';
 import 'package:services_form/widget/text_bar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:services_form/brain/spareparts_database.dart';
+import 'package:services_form/brain/sqlite_services.dart';
 
 tarikh() {
   var now = new DateTime.now();
   var formatter = new DateFormat('dd-MM-yyyy');
   return formatter.format(now);
 }
+
+CashFlow cashflow;
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 BioSpareparts bio;
@@ -292,6 +295,7 @@ _formConfirmation(BuildContext context) {
     onPressed: () {
       for (int i = 0; i < int.parse(cquantity.text); i++) {
         submit();
+        localCF();
       }
       Navigator.pop(context);
       Navigator.pop(context);
@@ -317,6 +321,23 @@ _formConfirmation(BuildContext context) {
       return alert;
     },
   );
+}
+
+void localCF() {
+  if (cashflow == null) {
+    CashFlow cf = CashFlow(
+      dahBayar: 0,
+      price: int.parse(cprice.text) -
+          int.parse(cprice.text) -
+          int.parse(cprice.text),
+      spareparts: '${csparepart.text} (${ctype.text})',
+      tarikh: tarikh().toString(),
+    );
+    DBProvider.db.insert(cf).then((id) => {
+          print('tambah '
+              'ke database $id')
+        });
+  }
 }
 
 void submit() {

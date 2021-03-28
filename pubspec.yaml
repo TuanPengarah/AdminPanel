@@ -28,21 +28,21 @@ dependencies:
   build_runner: ^1.0.0
   json_serializable: ^3.2.2
   auto_size_text: ^2.1.0
-  lottie: ^0.7.0+1
+  lottie: 0.7.0+1
   sizer: ^1.1.8
   esc_pos_bluetooth: ^0.2.8
   flutter_bluetooth_basic: 0.1.5
   image: ^2.1.4
   double_back_to_close: ^1.0.2+mit
   firebase_database:
-  cloud_firestore: ^0.16.0+1
-  firebase_core :
+  cloud_firestore: ^1.0.3
+  firebase_core: ^1.0.2
   native_contact_picker: ^0.0.6
   avatar_letter: ^1.0.1
-  url_launcher: ^5.7.10
+  url_launcher:
   intl: 
   flutter_slidable:
-  flutter_typeahead: ^2.0.0
+  flutter_typeahead: ^3.1.0
   adaptive_theme: ^1.1.0
   oktoast: ^3.0.0
   flutter_fluid_slider: ^1.0.3
@@ -52,11 +52,15 @@ dependencies:
   jiffy: ^4.0.0
   vibration: ^1.7.3
   audioplayers: ^0.10.0
-  pdf:
   flutter_full_pdf_viewer: ^1.0.6
   path_provider: ^0.5.0
-  printing:
-
+  provider: ^5.0.0
+  pinput: ^1.2.0
+  sqflite:
+  after_layout: ^1.1.0
+  firebase_storage: ^8.0.1
+  pdf:
+  share: ^2.0.1
 
 dev_dependencies:
   flutter_test:

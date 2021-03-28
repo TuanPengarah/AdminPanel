@@ -28,7 +28,7 @@ buttomCustomerSheet(context) {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Pangkalan Data Pelanggan',
+                  'Urus Pelanggan',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -64,7 +64,7 @@ buttomCustomerSheet(context) {
                     Navigator.pushNamed(context, 'allcustomer');
                   },
                   child: Text(
-                    'Semua Customer',
+                    'Semua Pelanggan',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

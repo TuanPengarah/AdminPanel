@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:services_form/brain/check_lock.dart';
 import 'package:services_form/screens/cashflow/all_transaction.dart';
+import 'package:services_form/screens/setting/settings.dart';
 import 'package:services_form/screens/spareparts/add_sparepart.dart';
 import 'package:services_form/screens/customer/all_customer.dart';
 import 'package:services_form/screens/home/home_screen.dart';
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
                             'sales': (context) => SalesPendingPayments(),
                             'cashflow': (context) => CashFlowHome(),
                             'alltransaction': (context) => AllTransaction(),
+                            'setting': (context) => Settings(),
                           },
                         ),
                       ),

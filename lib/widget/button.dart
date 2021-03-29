@@ -10,23 +10,30 @@ class Button extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        InkWell(
-          onTap: () {
-            buttomCustomerSheet(context);
-          },
-          child: Container(
+        Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+          child: Ink(
             height: 50,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: AutoSizeText(
-                'Pelanggan',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                Future.delayed(const Duration(milliseconds: 190), () {
+                  buttomCustomerSheet(context);
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: AutoSizeText(
+                  'Pelanggan',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey),
+                ),
               ),
             ),
           ),
@@ -34,31 +41,35 @@ class Button extends StatelessWidget {
         SizedBox(
           height: 25,
         ),
-        InkWell(
-          onTap: () {
-            Future.delayed(
-              const Duration(milliseconds: 190),
-              () {
-                buttomManagement(context);
-              },
-            );
-          },
-          child: Container(
+        Material(
+          color: Colors.transparent,
+          child: Ink(
             height: 50,
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(color: Colors.white),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                'Pengurusan',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                Future.delayed(
+                  const Duration(milliseconds: 190),
+                  () {
+                    buttomManagement(context);
+                  },
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Text(
+                  'Pengurusan',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

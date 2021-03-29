@@ -67,20 +67,15 @@ class BankCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 2.0),
-                child: InkWell(
-                  onTap: () {
-                    print(_isLock);
-                  },
-                  child: Text(
-                    _isLock == true
-                        ? 'STATUS DIKUNCI'
-                        : 'RM${Provider.of<BalanceProvider>(context).jumlah.toString()}',
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 4,
-                    ),
+                child: Text(
+                  _isLock == true
+                      ? 'STATUS DIKUNCI'
+                      : 'RM${Provider.of<BalanceProvider>(context).jumlah.toString()}',
+                  style: TextStyle(
+                    color: Colors.white60,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 4,
                   ),
                 ),
               ),

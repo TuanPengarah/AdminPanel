@@ -98,22 +98,22 @@ class _TransactionSettingState extends State<TransactionSetting> {
         .doc(widget.mid)
         .update(updateRH);
 
-    //TAMBAH DOC PADA CASHFLOW
-    Map<String, dynamic> cashFlow = {
-      'Nama': '${widget.nama}',
-      'Model': '${widget.model}',
-      'Repair': '$_titleSpareparts',
-      'Harga': int.parse(_cCash.text),
-      'Harga Supplier': _hargaSupplier,
-      'Waranti': '$_hariWaranti $_hariBulan',
-      'Waranti Mula': '$_tarikhSekarang',
-      'Waranti Akhir': '$_tempohWaranti',
-    };
+    // //TAMBAH DOC PADA CASHFLOW
+    // Map<String, dynamic> cashFlow = {
+    //   'Nama': '${widget.nama}',
+    //   'Model': '${widget.model}',
+    //   'Repair': '$_titleSpareparts',
+    //   'Harga': int.parse(_cCash.text),
+    //   'Harga Supplier': _hargaSupplier,
+    //   'Waranti': '$_hariWaranti $_hariBulan',
+    //   'Waranti Mula': '$_tarikhSekarang',
+    //   'Waranti Akhir': '$_tempohWaranti',
+    // };
 
-    FirebaseFirestore.instance
-        .collection('cashFlow')
-        .doc(widget.mid)
-        .set(cashFlow);
+    // FirebaseFirestore.instance
+    //     .collection('cashFlow')
+    //     .doc(widget.mid)
+    //     .set(cashFlow);
   }
 
   @override
@@ -244,6 +244,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
       onPressed: () {
         _updateDatabase();
         _localCF();
+        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
           context,

@@ -19,7 +19,7 @@ class CashFlowTransactionGlance extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(15),
       child: FutureBuilder(
-        future: DBProvider.db.queryAll('${DBProvider.columnTarikh} DESC'),
+        future: DBProvider.db.queryAll('${DBProvider.columnId} DESC'),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             cflist = snapshot.data;

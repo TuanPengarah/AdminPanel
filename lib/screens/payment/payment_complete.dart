@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:services_form/brain/constant.dart';
 import 'package:services_form/screens/print/print_payment_receipt.dart';
 import 'package:vibration/vibration.dart';
-import 'package:audioplayers/audio_cache.dart';
+// import 'package:audioplayers/audio_cache.dart';
 import 'package:services_form/pdf/generate.dart';
 
 class PaymentsCompleted extends StatefulWidget {
@@ -39,16 +39,16 @@ class _PaymentsCompletedState extends State<PaymentsCompleted>
     with TickerProviderStateMixin {
   AnimationController _controller;
 
-  void playSound() {
-    final player = AudioCache();
-    player.play('apple_pay.mp3');
-  }
+  // void playSound() {
+  //   final player = AudioCache();
+  //   player.play('apple_pay.mp3');
+  // }
 
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
       Vibration.vibrate(pattern: [100, 30, 100, 30]);
-      playSound();
+      // playSound();
     });
     _controller = AnimationController(vsync: this)
       ..value = 0

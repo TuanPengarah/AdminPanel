@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:services_form/brain/check_lock.dart';
+import 'package:services_form/screens/biometricAuth/auth_screen.dart';
 import 'package:services_form/screens/cashflow/all_transaction.dart';
 import 'package:services_form/screens/setting/settings.dart';
 import 'package:services_form/screens/spareparts/add_sparepart.dart';
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
                           theme: theme,
                           darkTheme: darkTheme,
                           debugShowCheckedModeBanner: false,
-                          initialRoute: 'homescreen',
+                          initialRoute: 'bioauth',
                           routes: {
                             'homescreen': (context) => HomeScreen(),
                             'jobsheet': (context) => JobSheet(),
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
                             'cashflow': (context) => CashFlowHome(),
                             'alltransaction': (context) => AllTransaction(),
                             'setting': (context) => Settings(),
+                            'bioauth': (context) => FingerprintAuth(),
                           },
                         ),
                       ),

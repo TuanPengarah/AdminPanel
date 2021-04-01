@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:services_form/brain/check_lock.dart';
+import 'package:services_form/brain/setting_provider.dart';
 import 'package:services_form/screens/biometricAuth/auth_screen.dart';
 import 'package:services_form/screens/cashflow/all_transaction.dart';
 import 'package:services_form/screens/setting/settings.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
                           Provider<CheckLock>(create: (context) => CheckLock()),
                           Provider<BalanceProvider>(
                               create: (context) => BalanceProvider()),
+                          Provider<SettingsProvider>(
+                            create: (context) => SettingsProvider(),
+                          )
                         ],
                         child: MaterialApp(
                           theme: theme,

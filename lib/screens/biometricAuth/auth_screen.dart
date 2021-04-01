@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:services_form/screens/biometricAuth/local_auth_api.dart';
 import 'package:services_form/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:services_form/brain/setting_provider.dart';
 
 class FingerprintAuth extends StatefulWidget {
   @override
@@ -11,10 +13,14 @@ class FingerprintAuth extends StatefulWidget {
 
 class _FingerprintAuthState extends State<FingerprintAuth> {
   bool _checkAuth;
+  bool _biometric;
 
   checkAuthorise() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _checkAuth = prefs.getBool('passwordStart');
+    _checkAuth = prefs.getBool('passwordStart') ?? true;
+    _biometric = prefs.getBool('biometric') ?? false;
+    Provider.of<SettingsProvider>(context, listen: false).checkSave();
+    print(_biometric);
     if (_checkAuth == true) {
       _launchFingerPrint();
     } else if (_checkAuth == false) {

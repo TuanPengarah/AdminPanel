@@ -51,7 +51,6 @@ dependencies:
   dropdown_formfield: ^0.1.3
   jiffy: ^4.0.0
   vibration: ^1.7.3
-#  audioplayers: ^0.10.0
   flutter_full_pdf_viewer: ^1.0.6
   path_provider: ^0.5.0
   provider: ^5.0.0
@@ -67,6 +66,9 @@ dependencies:
   shared_preferences: ^0.5.0
   file_picker: ^1.3.6
   local_auth:
+  assets_audio_player:
+  firebase_auth: ^1.0.1
+  quick_actions: ^0.6.0
 
 flutter_native_splash:
   color: "#ffffff"

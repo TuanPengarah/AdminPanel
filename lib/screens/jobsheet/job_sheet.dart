@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:native_contact_picker/native_contact_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //Nama id setiap textbar
 final nama = TextEditingController();
@@ -312,13 +313,31 @@ class _JobSheetState extends State<JobSheet> {
     );
   }
 
+  String _getUserID;
+  Future<void> createUser() async {
+    try {
+      UserCredential auth = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: email.text, password: '123456');
+      final User user = auth.user;
+      _getUserID = user.uid;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
 ////Tambah ke database////
   addData() {
-    //cantumkan variable nama dengan UID
     String _docid;
     widget.editCustomer == false
-        ? _docid =
-            'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}'
+        ? _docid = _getUserID
+        // 'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}'
         : _docid = widget.passUID;
     pass.text.isEmpty ? pass.text = 'Tiada Password' : pass.text = pass.text;
 //convert tarikh dari peranti ke database
@@ -414,7 +433,8 @@ class _JobSheetState extends State<JobSheet> {
     );
     Widget continueButton = TextButton(
       child: Text('Pasti'),
-      onPressed: () {
+      onPressed: () async {
+        if (widget.editCustomer == false) await createUser();
         addData();
         Navigator.pop(context);
         _printConfirmation(context);

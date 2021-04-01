@@ -57,7 +57,7 @@ buttomManagement(context) {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    'Price Calculator / Local DB ',
+                    'Price List/ Calculator ',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

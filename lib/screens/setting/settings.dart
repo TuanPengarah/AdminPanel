@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:services_form/brain/constant.dart';
 import 'package:services_form/screens/setting/savecloud_confirmation.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share/share.dart';
 import 'downloadcloud_confirmation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
+import 'package:services_form/brain/setting_provider.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -14,23 +16,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool _passwordStart = true;
-  bool _biometric = false;
   String _result = '...';
-
-  _saveBoolPass(bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _passwordStart = prefs.getBool('passwordStart' ?? true);
-    _passwordStart = value;
-    await prefs.setBool('passwordStart', _passwordStart);
-  }
-
-  _saveBoolBio(bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _biometric = prefs.getBool('biometric' ?? false);
-    _biometric = value;
-    await prefs.setBool('biometric', _biometric);
-  }
 
   filePicker(String location) async {
     _result = await FilePicker.getFilePath(
@@ -40,31 +26,16 @@ class _SettingsState extends State<Settings> {
 
     if (_result != null) {
       File file = File(_result);
-      print('$_result');
+      showToast('Berjaya!', position: ToastPosition.bottom);
       return await file.copy(location);
     } else {
       print('Tak jadi nak pilih');
     }
   }
 
-  checkSave() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _passwordStart != null
-          ? _passwordStart = prefs.getBool('passwordStart')
-          : _passwordStart = true;
-      _biometric != null
-          ? _biometric = prefs.getBool('biometric')
-          : _biometric = false;
-    });
-
-    return _passwordStart;
-  }
-
   @override
   void initState() {
-    checkSave();
-
+    // checkSave();
     super.initState();
   }
 
@@ -89,12 +60,17 @@ class _SettingsState extends State<Settings> {
                 ),
                 onToggle: (bool value) {
                   setState(() {
-                    _passwordStart = value;
-                    print('password start $_passwordStart');
-                    _saveBoolPass(_passwordStart);
+                    // _passwordStart = value;
+                    Provider.of<SettingsProvider>(context, listen: false)
+                        .passwordStart = value;
+                    // _saveBoolPass(_passwordStart);
+                    Provider.of<SettingsProvider>(context, listen: false)
+                        .saveBoolPass(value);
                   });
                 },
-                switchValue: _passwordStart,
+                switchValue: Provider.of<SettingsProvider>(
+                  context,
+                ).passwordStart,
               ),
               SettingsTile.switchTile(
                 title: 'Gunakan Biometrik',
@@ -104,11 +80,15 @@ class _SettingsState extends State<Settings> {
                 ),
                 onToggle: (bool value) {
                   setState(() {
-                    _biometric = value;
-                    _saveBoolBio(_biometric);
+                    Provider.of<SettingsProvider>(context, listen: false)
+                        .biometric = value;
+                    Provider.of<SettingsProvider>(context, listen: false)
+                        .saveBoolBio(value);
+                    // _biometric = value;
+                    // _saveBoolBio(_biometric);
                   });
                 },
-                switchValue: _biometric,
+                switchValue: Provider.of<SettingsProvider>(context).biometric,
               ),
             ],
           ),

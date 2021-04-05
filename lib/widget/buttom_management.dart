@@ -55,9 +55,22 @@ buttomManagement(context) {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    Navigator.pushNamed(context, 'allpricelist');
+                    // Navigator.pushNamed(context, 'calculate');
                   },
                   child: Text(
-                    'Price List/ Calculator ',
+                    'Senarai Harga',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, 'calculate');
+                  },
+                  child: Text(
+                    'Pengiraan Harga',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

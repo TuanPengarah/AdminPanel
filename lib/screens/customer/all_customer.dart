@@ -122,6 +122,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                       );
                     }
                     return ListView(
+                      physics: BouncingScrollPhysics(),
                       children: snapshot.data.docs.map((document) {
                         return ListTile(
                           leading: Hero(
@@ -197,6 +198,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                       );
                     }
                     return ListView(
+                      physics: BouncingScrollPhysics(),
                       children: snapshot.data.docs.map((document) {
                         return ListTile(
                           leading: AvatarLetter(

@@ -69,7 +69,11 @@ Future<bool> addTransaction(context, bool isUpdate) async {
                       child: TextBar(
                         err: _namamiss ? 'Sila masukkan bahagian ini' : null,
                         hintTitle: 'Nama transaksi',
-                        valueChange: (newValue) {},
+                        valueChange: (newValue) {
+                          if (_cName.text != newValue.toUpperCase())
+                            _cName.value = _cName.value
+                                .copyWith(text: newValue.toUpperCase());
+                        },
                         keyType: TextInputType.name,
                         focus: true,
                         controll: _cName,

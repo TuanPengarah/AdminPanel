@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:services_form/brain/check_lock.dart';
 import 'package:services_form/brain/setting_provider.dart';
 import 'package:services_form/screens/biometricAuth/auth_screen.dart';
+import 'package:services_form/screens/calculate/calculator.dart';
 import 'package:services_form/screens/cashflow/all_transaction.dart';
+import 'package:services_form/screens/priceList/priceList_home.dart';
 import 'package:services_form/screens/setting/settings.dart';
 import 'package:services_form/screens/spareparts/add_sparepart.dart';
 import 'package:services_form/screens/customer/all_customer.dart';
@@ -92,6 +94,8 @@ class MyApp extends StatelessWidget {
                             'alltransaction': (context) => AllTransaction(),
                             'setting': (context) => Settings(),
                             'bioauth': (context) => FingerprintAuth(),
+                            'calculate': (context) => CalculatorPrice(),
+                            'allpricelist': (context) => PriceListHome(),
                           },
                         ),
                       ),

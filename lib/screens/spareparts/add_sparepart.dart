@@ -130,6 +130,7 @@ class _AddSparepartState extends State<AddSparepart> {
       appBar: AppBar(
         title: Text('Tambah Sparepart'),
         centerTitle: true,
+        brightness: Brightness.dark,
       ),
       body: SingleChildScrollView(
         child: Column(

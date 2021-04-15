@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:services_form/screens/priceList/priceList_category.dart';
 
+import 'add_price_list.dart';
+
 class PriceListHome extends StatefulWidget {
   @override
   _PriceListHomeState createState() => _PriceListHomeState();
@@ -16,6 +18,25 @@ class _PriceListHomeState extends State<PriceListHome> {
           title: Text('Senarai Harga'),
           centerTitle: true,
           brightness: Brightness.dark,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                setState(() {});
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (c) => AddPriceList(),
+                  ),
+                );
+              },
+            ),
+          ],
           bottom: TabBar(
             physics: BouncingScrollPhysics(),
             isScrollable: true,

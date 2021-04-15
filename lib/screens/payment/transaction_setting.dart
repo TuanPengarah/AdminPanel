@@ -52,7 +52,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
   //generate untuk tarikh baru (Device Time)
   tarikh() {
     var now = new DateTime.now();
-    var formatter = new DateFormat('dd-MM-yyyy | hh:mm a');
+    var formatter = new DateFormat('dd-MM-yyyy');
     return formatter.format(now);
   }
 
@@ -129,6 +129,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
       _suggestHarga = 0;
       var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
       _tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
+      _suggestionAI();
     } else if (_hariWaranti == '1' && _hariBulan == 'Bulan') {
       _suggestHarga = 0;
       _suggestionAI();
@@ -167,7 +168,10 @@ class _TransactionSettingState extends State<TransactionSetting> {
     int x = _suggestHarga;
     int z = _hargaSupplier;
 
-    if (i <= 40) {
+    if (_hariWaranti == '-' && _hariBulan == 'Tiada') {
+      i = i - 20;
+      return _hargaSpareparts = i;
+    } else if (i <= 40) {
       i = i;
       print('i+i');
       return _hargaSpareparts = i;
@@ -569,8 +573,15 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                                   setState(() {
                                                     _hariWaranti = value;
                                                     dapatWaranti();
-
-                                                    print(_tempohWaranti);
+                                                    dapatWaranti();
+                                                    if (value == '-') {
+                                                      _hariBulan = 'Tiada';
+                                                    } else {
+                                                      _hariBulan == 'Tiada'
+                                                          ? _hariBulan = 'Bulan'
+                                                          : _hariBulan =
+                                                              _hariBulan;
+                                                    }
                                                   });
                                                 },
                                                 onSaved: (value) {
@@ -614,8 +625,18 @@ class _TransactionSettingState extends State<TransactionSetting> {
                                                   setState(() {
                                                     _hariBulan = value;
                                                     dapatWaranti();
+                                                    dapatWaranti();
 
                                                     print(_tempohWaranti);
+
+                                                    if (value == 'Tiada') {
+                                                      _hariWaranti = '-';
+                                                    } else {
+                                                      _hariWaranti == '-'
+                                                          ? _hariWaranti = '1'
+                                                          : _hariWaranti =
+                                                              _hariWaranti;
+                                                    }
                                                   });
                                                 },
                                                 onSaved: (value) {

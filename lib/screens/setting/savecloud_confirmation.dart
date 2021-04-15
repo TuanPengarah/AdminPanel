@@ -8,7 +8,7 @@ Future<void> _uploadFile(String filePath, BuildContext context) async {
   File file = File(kcfLocation);
   try {
     await firebase_storage.FirebaseStorage.instance
-        .ref('database/CashFlow.db')
+        .ref('database/Af-fix.db')
         .putFile(file);
   } on firebase_storage.FirebaseException catch (e) {
     AlertDialog(

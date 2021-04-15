@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-const String DB1_NAME = 'CashFlow.db';
+const String DB1_NAME = 'Af-fix.db';
 const int DB1_VERSION = 1;
 const String _tableName = 'cashflow';
 const String _tableList = 'pricelist';
@@ -118,14 +118,13 @@ class DBProvider {
 
   Future<int> updatePL(Map<String, dynamic> row) async {
     final db = await database;
-    int id = row[columnId];
-    return await db
-        .update(_tableList, row, where: '$columnId = ?', whereArgs: [id]);
+    int id = row['id'];
+    return await db.update(_tableList, row, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> deletePL(int id) async {
     final db = await database;
-    return await db.delete(_tableList, where: '$columnId = ?', whereArgs: [id]);
+    return await db.delete(_tableList, where: 'id = ?', whereArgs: [id]);
   }
 }
 

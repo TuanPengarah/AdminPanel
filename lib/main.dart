@@ -7,6 +7,7 @@ import 'package:services_form/brain/setting_provider.dart';
 import 'package:services_form/screens/biometricAuth/auth_screen.dart';
 import 'package:services_form/screens/calculate/calculator.dart';
 import 'package:services_form/screens/cashflow/all_transaction.dart';
+import 'package:services_form/screens/loginAuth/login.dart';
 import 'package:services_form/screens/priceList/priceList_home.dart';
 import 'package:services_form/screens/setting/settings.dart';
 import 'package:services_form/screens/spareparts/add_sparepart.dart';
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
                           theme: theme,
                           darkTheme: darkTheme,
                           debugShowCheckedModeBanner: false,
-                          initialRoute: 'bioauth',
+                          initialRoute: 'loginAuth',
                           routes: {
                             'homescreen': (context) => HomeScreen(),
                             'jobsheet': (context) => JobSheet(),
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
                             'bioauth': (context) => FingerprintAuth(),
                             'calculate': (context) => CalculatorPrice(),
                             'allpricelist': (context) => PriceListHome(),
+                            'loginAuth': (context) => LoginAuth(),
                           },
                         ),
                       ),

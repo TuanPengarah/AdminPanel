@@ -40,7 +40,9 @@ class _AddPriceListState extends State<AddPriceList> {
 
   @override
   void initState() {
-    _cHargaSupplier.text = widget.hargaSupplier.toString();
+    if (widget.hargaSupplier != null) {
+      _cHargaSupplier.text = widget.hargaSupplier.toString();
+    }
     super.initState();
   }
 
@@ -107,6 +109,7 @@ class _AddPriceListState extends State<AddPriceList> {
       ),
       onPressed: () {
         _addToSqlite();
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
     );
@@ -184,7 +187,11 @@ class _AddPriceListState extends State<AddPriceList> {
                 },
                 controll: _cModel,
                 hintTitle: 'Model',
-                valueChange: (newValue) {},
+                valueChange: (newValue) {
+                  if (_cModel.text != newValue.toUpperCase())
+                    _cModel.value =
+                        _cModel.value.copyWith(text: newValue.toUpperCase());
+                },
                 keyType: TextInputType.name,
                 focus: true,
                 err: _modelMiss ? 'Sila masukkan model smartphone' : null,
@@ -206,7 +213,11 @@ class _AddPriceListState extends State<AddPriceList> {
                 },
                 controll: _cJenis,
                 hintTitle: 'Jenis Spareparts',
-                valueChange: (newValue) {},
+                valueChange: (newValue) {
+                  if (_cJenis.text != newValue.toUpperCase())
+                    _cJenis.value =
+                        _cJenis.value.copyWith(text: newValue.toUpperCase());
+                },
                 keyType: TextInputType.name,
                 focus: true,
                 err: _jenisMiss ? 'Sila masukkan jenis spareparts' : null,
@@ -236,7 +247,11 @@ class _AddPriceListState extends State<AddPriceList> {
                 },
                 controll: _cSupplier,
                 hintTitle: 'Supplier',
-                valueChange: (newValue) {},
+                valueChange: (newValue) {
+                  if (_cSupplier.text != newValue.toUpperCase())
+                    _cSupplier.value =
+                        _cSupplier.value.copyWith(text: newValue.toUpperCase());
+                },
                 keyType: TextInputType.name,
                 focus: true,
                 err: _supplierMiss ? 'Sila masukkan nama supplier' : null,

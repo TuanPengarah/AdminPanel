@@ -9,7 +9,7 @@ Future<void> _download() async {
 
   try {
     await firebase_storage.FirebaseStorage.instance
-        .ref('database/CashFlow.db')
+        .ref('database/Af-fix.db')
         .writeToFile(downloadToFile);
   } on firebase_storage.FirebaseException catch (e) {
     print('print $e');

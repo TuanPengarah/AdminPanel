@@ -261,12 +261,13 @@ class _CalculatorPriceState extends State<CalculatorPrice> {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Center(
                   child: Text(
                     'AMARAN: Pengiraan harga ini adalah Versi Beta dan '
-                    'kemungkinan besar ia adalah kurang tepat!',
+                    'kemungkinan besar ia adalah kurang tepat! Ia juga tidak '
+                    'termasuk dengan upah pasang dan upah COD!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,

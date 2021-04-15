@@ -36,6 +36,7 @@ class SmartphoneSuggestion {
     'HTC',
     'Nokia',
     'Oppo',
+    'OnePlus',
   ];
 
   static List<String> getSuggestions(String query) {

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,8 @@ import 'package:services_form/screens/payment/sales_pending_payment.dart';
 import 'package:sizer/sizer.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:oktoast/oktoast.dart';
+import 'brain/auth_services.dart';
+import 'brain/auth_wrapper.dart';
 import 'screens/cashflow/cashflow_home.dart';
 import 'screens/pendingjob/pending_job.dart';
 import 'brain/balance_provider.dart';
@@ -71,18 +74,28 @@ class MyApp extends StatelessWidget {
                 builder: (theme, darkTheme) => OKToast(
                       child: MultiProvider(
                         providers: [
+                          Provider<AuthenticationService>(
+                            create: (context) =>
+                                AuthenticationService(FirebaseAuth.instance),
+                          ),
                           Provider<CheckLock>(create: (context) => CheckLock()),
                           Provider<BalanceProvider>(
                               create: (context) => BalanceProvider()),
                           Provider<SettingsProvider>(
                             create: (context) => SettingsProvider(),
+                          ),
+                          StreamProvider(
+                            create: (context) => context
+                                .read<AuthenticationService>()
+                                .authStateChanges,
+                            initialData: null,
                           )
                         ],
                         child: MaterialApp(
                           theme: theme,
                           darkTheme: darkTheme,
                           debugShowCheckedModeBanner: false,
-                          initialRoute: 'loginAuth',
+                          initialRoute: 'authwrapper',
                           routes: {
                             'homescreen': (context) => HomeScreen(),
                             'jobsheet': (context) => JobSheet(),
@@ -98,6 +111,7 @@ class MyApp extends StatelessWidget {
                             'calculate': (context) => CalculatorPrice(),
                             'allpricelist': (context) => PriceListHome(),
                             'loginAuth': (context) => LoginAuth(),
+                            'authwrapper': (context) => AuthenticationWrapper(),
                           },
                         ),
                       ),

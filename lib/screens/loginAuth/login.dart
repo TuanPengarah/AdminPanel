@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:services_form/brain/auth_services.dart';
 import 'package:services_form/widget/text_bar.dart';
+import 'package:provider/provider.dart';
 
 class LoginAuth extends StatefulWidget {
   @override
@@ -8,6 +11,9 @@ class LoginAuth extends StatefulWidget {
 }
 
 class _LoginAuthState extends State<LoginAuth> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode =
@@ -42,12 +48,14 @@ class _LoginAuthState extends State<LoginAuth> {
                     height: 100,
                   ),
                   TextBar(
+                    controll: _emailController,
                     hintTitle: 'Email',
                     valueChange: (newValue) {},
                     keyType: TextInputType.emailAddress,
                     focus: false,
                   ),
                   TextBar(
+                    controll: _passwordController,
                     hintTitle: 'Kata laluan',
                     valueChange: (newValue) {},
                     keyType: TextInputType.emailAddress,
@@ -57,7 +65,15 @@ class _LoginAuthState extends State<LoginAuth> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await context.read<AuthenticationService>().signIn(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              );
+                          showToast(Provider.of<AuthenticationService>(context,
+                                  listen: false)
+                              .error);
+                        },
                         child: Text('Mari Menuju Kejayaan ->'),
                       ),
                     ],

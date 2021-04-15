@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:services_form/brain/auth_services.dart';
 import 'package:services_form/brain/constant.dart';
 import 'package:services_form/screens/setting/savecloud_confirmation.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -133,6 +134,27 @@ class _SettingsState extends State<Settings> {
                 ),
                 onPressed: (value) {
                   filePicker(kcfLocation);
+                },
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: 'Akaun',
+            tiles: [
+              SettingsTile(
+                title: 'Email pengurus',
+                subtitle: 'akidfikriazhar@gmail.com',
+                leading: Icon(Icons.email),
+                onPressed: (value) {},
+              ),
+              SettingsTile(
+                title: 'Log keluar',
+                subtitle: 'Log keluar akaun anda',
+                leading: Icon(Icons.logout),
+                onPressed: (value) async {
+                  await context.read<AuthenticationService>().signOut();
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, 'authwrapper');
                 },
               ),
             ],

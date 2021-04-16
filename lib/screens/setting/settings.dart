@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:services_form/brain/auth_services.dart';
 import 'package:services_form/brain/constant.dart';
@@ -42,6 +43,8 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -149,11 +152,22 @@ class _SettingsState extends State<Settings> {
               ),
               SettingsTile(
                 title: 'Log keluar',
-                subtitle: 'Log keluar akaun anda',
+                subtitle: 'Kembali ke halaman log masuk',
                 leading: Icon(Icons.logout),
                 onPressed: (value) async {
                   await context.read<AuthenticationService>().signOut();
                   Navigator.pop(context);
+                  SystemChrome.setSystemUIOverlayStyle(
+                    SystemUiOverlayStyle(
+                        systemNavigationBarColor:
+                            isDarkMode ? Color(0xff212121) : Colors.white,
+                        systemNavigationBarIconBrightness: isDarkMode == true
+                            ? Brightness.light
+                            : Brightness.dark,
+                        statusBarIconBrightness: isDarkMode == true
+                            ? Brightness.light
+                            : Brightness.dark),
+                  );
                   Navigator.pushReplacementNamed(context, 'authwrapper');
                 },
               ),

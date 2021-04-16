@@ -199,6 +199,7 @@ class _JobSheetState extends State<JobSheet> {
                   child: ListView(
                     children: [
                       TextBar(
+                        password: false,
                         focus: false,
                         controll: nama,
                         err: namamiss ? 'Sila masukkan nama customer' : null,
@@ -211,6 +212,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.name,
                       ),
                       TextBar(
+                        password: false,
                         focus: false,
                         controll: phone,
                         err: phonemiss
@@ -221,6 +223,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.phone,
                       ),
                       TextBar(
+                        password: false,
                         focus: false,
                         controll: email,
                         hintTitle: 'Email *Optional',
@@ -228,6 +231,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.emailAddress,
                       ),
                       TextBar(
+                        password: false,
                         notSuggest: true,
                         onClickSuggestion: (suggestion) {
                           model.text = suggestion.toString().toUpperCase();
@@ -255,6 +259,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.text,
                       ),
                       TextBar(
+                        password: false,
                         focus: false,
                         controll: pass,
                         hintTitle: 'Password Smartphone',
@@ -262,6 +267,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.text,
                       ),
                       TextBar(
+                        password: false,
                         notSuggest: true,
                         onClickSuggestion: (suggestion) {
                           damage.text = suggestion.toString().toUpperCase();
@@ -288,6 +294,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.multiline,
                       ),
                       TextBar(
+                        password: false,
                         focus: false,
                         controll: angg,
                         hintTitle: 'Anggaran harga',
@@ -295,6 +302,7 @@ class _JobSheetState extends State<JobSheet> {
                         keyType: TextInputType.number,
                       ),
                       TextBar(
+                        password: false,
                         focus: false,
                         controll: remarks,
                         hintTitle: '*Remarks',
@@ -333,7 +341,7 @@ class _JobSheetState extends State<JobSheet> {
   }
 
 ////Tambah ke database////
-  addData() {
+  addData() async {
     String _docid;
     widget.editCustomer == false
         ? _docid = _getUserID
@@ -392,7 +400,8 @@ class _JobSheetState extends State<JobSheet> {
       //Tambah data collection (Customer Bio) ke database
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('customer');
-      collectionReference
+
+      await collectionReference
           .doc(_docid)
           .set(userData)
           .then((value) => showToast(
@@ -403,8 +412,7 @@ class _JobSheetState extends State<JobSheet> {
               position: ToastPosition.bottom));
 
       //Tambah data sub-collection (Repair History) ke database
-      FirebaseFirestore.instance
-          .collection('customer')
+      await collectionReference
           .doc(_docid)
           .collection('repair history')
           .doc(uid.toString())

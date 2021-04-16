@@ -82,6 +82,7 @@ class EditSparepart {
                 ),
                 SizedBox(height: 30),
                 TextBar(
+                  password: false,
                   notSuggest: true,
                   onClickSuggestion: (suggestion) {
                     _cmodel.text = suggestion.toString();
@@ -103,6 +104,7 @@ class EditSparepart {
                   valueChange: (value) {},
                 ),
                 TextBar(
+                  password: false,
                   notSuggest: true,
                   onClickSuggestion: (suggestion) {
                     _csparepart.text = suggestion.toString();
@@ -125,6 +127,7 @@ class EditSparepart {
                   valueChange: (value) {},
                 ),
                 TextBar(
+                  password: false,
                   notSuggest: true,
                   onClickSuggestion: (suggestion) {
                     _csupplier.text = suggestion['name'].toString();
@@ -147,6 +150,7 @@ class EditSparepart {
                   valueChange: (value) {},
                 ),
                 TextBar(
+                  password: false,
                   notSuggest: true,
                   onClickSuggestion: (suggestion) {
                     _manufactor.text = suggestion.toString();
@@ -169,6 +173,7 @@ class EditSparepart {
                   valueChange: (value) {},
                 ),
                 TextBar(
+                  password: false,
                   focus: false,
                   controll: _details,
                   hintTitle: 'Masukkan maklumat spareparts',
@@ -177,6 +182,7 @@ class EditSparepart {
                   valueChange: (value) {},
                 ),
                 TextBar(
+                  password: false,
                   focus: false,
                   controll: _price,
                   hintTitle: 'Masukkan harga baru',

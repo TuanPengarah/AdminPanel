@@ -70,9 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 0.1.h, vertical: 2.0.h),
-                      child: Image.asset(
-                        'assets/logo.png',
-                        scale: 4.8,
+                      child: Hero(
+                        tag: 'logo',
+                        child: Image.asset(
+                          'assets/logo.png',
+                          scale: 4.8,
+                        ),
                       ),
                     ),
                     IconButton(

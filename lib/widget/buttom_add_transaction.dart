@@ -67,6 +67,7 @@ Future<bool> addTransaction(context, bool isUpdate) async {
                   children: [
                     Expanded(
                       child: TextBar(
+                        password: false,
                         err: _namamiss ? 'Sila masukkan bahagian ini' : null,
                         hintTitle: 'Nama transaksi',
                         valueChange: (newValue) {
@@ -81,6 +82,7 @@ Future<bool> addTransaction(context, bool isUpdate) async {
                     ),
                     Expanded(
                       child: TextBar(
+                        password: false,
                         err: _pricemiss ? 'Sila masukkan jumlah' : null,
                         hintTitle: 'Jumlah',
                         valueChange: (newValue) {},

@@ -54,6 +54,7 @@ class Editdb {
                 ),
                 SizedBox(height: 30),
                 TextBar(
+                  password: false,
                   focus: false,
                   controll: cNama,
                   hintTitle: 'Masukkan nama baru $name',
@@ -66,6 +67,7 @@ class Editdb {
                   },
                 ),
                 TextBar(
+                  password: false,
                   focus: false,
                   controll: cPhone,
                   hintTitle: 'Masukkan nombor phone baru $phone',
@@ -74,6 +76,7 @@ class Editdb {
                   valueChange: (value) {},
                 ),
                 TextBar(
+                  password: false,
                   focus: false,
                   controll: cEmail,
                   hintTitle: 'Masukkan email baru $email',

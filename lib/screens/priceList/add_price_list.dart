@@ -172,6 +172,7 @@ class _AddPriceListState extends State<AddPriceList> {
               child: Column(
             children: [
               TextBar(
+                password: false,
                 notSuggest: true,
                 onClickSuggestion: (suggestion) {
                   _cModel.text = suggestion.toString().toUpperCase();
@@ -197,6 +198,7 @@ class _AddPriceListState extends State<AddPriceList> {
                 err: _modelMiss ? 'Sila masukkan model smartphone' : null,
               ),
               TextBar(
+                password: false,
                 notSuggest: true,
                 onClickSuggestion: (suggestion) {
                   _cJenis.text = suggestion.toString().toUpperCase();
@@ -223,6 +225,7 @@ class _AddPriceListState extends State<AddPriceList> {
                 err: _jenisMiss ? 'Sila masukkan jenis spareparts' : null,
               ),
               TextBar(
+                password: false,
                 controll: _cHargaSupplier,
                 hintTitle: 'Harga Supplier',
                 valueChange: (newValue) {},
@@ -231,6 +234,7 @@ class _AddPriceListState extends State<AddPriceList> {
                 err: _hargaSuppliermiss ? 'Sila masukkan harga supplier' : null,
               ),
               TextBar(
+                password: false,
                 notSuggest: true,
                 onClickSuggestion: (suggestion) {
                   _cSupplier.text = suggestion['name'].toString();

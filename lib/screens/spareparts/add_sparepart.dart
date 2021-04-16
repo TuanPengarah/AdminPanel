@@ -136,6 +136,7 @@ class _AddSparepartState extends State<AddSparepart> {
         child: Column(
           children: [
             TextBar(
+              password: false,
               notSuggest: true,
               onClickSuggestion: (suggestion) {
                 csupplier.text = suggestion['name'].toString();
@@ -162,6 +163,7 @@ class _AddSparepartState extends State<AddSparepart> {
               err: _suppliermiss ? 'Sila masukkan nama supplier' : null,
             ),
             TextBar(
+              password: false,
               notSuggest: true,
               onClickSuggestion: (suggestion) {
                 csparepart.text = suggestion.toString().toUpperCase();
@@ -187,6 +189,7 @@ class _AddSparepartState extends State<AddSparepart> {
               err: _sparepartsmiss ? 'Sila masukkan model smartphone' : null,
             ),
             TextBar(
+              password: false,
               notSuggest: true,
               onClickSuggestion: (suggestion) {
                 ctype.text = suggestion.toString().toUpperCase();
@@ -212,6 +215,7 @@ class _AddSparepartState extends State<AddSparepart> {
               err: _typemiss ? 'Sila masukkan jenis spareparts' : null,
             ),
             TextBar(
+              password: false,
               notSuggest: true,
               onClickSuggestion: (suggestion) {
                 cmanufactor.text = suggestion.toString().toUpperCase();
@@ -239,6 +243,7 @@ class _AddSparepartState extends State<AddSparepart> {
                   _manufactor ? 'Sila masukkan jenis kualiti spareparts' : null,
             ),
             TextBar(
+              password: false,
               controll: cdetails,
               hintTitle: 'Maklumat Sparepart',
               hintEdit: 'cth: Warna, tarikh pengeluar battery, dll..',
@@ -252,6 +257,7 @@ class _AddSparepartState extends State<AddSparepart> {
               err: _details ? 'Sila masukkan makluamat sparepart' : null,
             ),
             TextBar(
+              password: false,
               controll: cquantity,
               hintTitle: 'Kuantiti',
               focus: false,
@@ -264,6 +270,7 @@ class _AddSparepartState extends State<AddSparepart> {
               err: _quantitymiss ? 'Sila masukkan kuantiti' : null,
             ),
             TextBar(
+              password: false,
               controll: cprice,
               hintTitle: 'Harga Supplier',
               focus: false,

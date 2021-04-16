@@ -424,6 +424,7 @@ class DialogPriceList {
               child: Column(
                 children: [
                   TextBar(
+                    password: false,
                     err: _missSuppPrice ? 'Sila masukkan harga supplier' : null,
                     controll: _cSuppPrice,
                     hintTitle: 'Masukkan harga supplier',
@@ -432,6 +433,7 @@ class DialogPriceList {
                     focus: true,
                   ),
                   TextBar(
+                    password: false,
                     err: _missFinalPrice ? 'Sila masukkan harga jual' : null,
                     controll: _cFinalPrice,
                     hintTitle: 'Masukkan harga jual',

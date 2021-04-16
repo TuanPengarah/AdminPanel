@@ -316,6 +316,7 @@ class _EditMyRepairIDState extends State<EditMyRepairID> {
                               ),
                             ),
                             TextBar(
+                              password: false,
                               controll: crepairLog,
                               notSuggest: true,
                               onClickSuggestion: (suggestion) {

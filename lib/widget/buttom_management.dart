@@ -81,7 +81,7 @@ buttomManagement(context) {
                     Navigator.pushNamed(context, 'sales');
                   },
                   child: Text(
-                    'Point of Sale',
+                    'Buat Pembayaran',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

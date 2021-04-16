@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class TextBar extends StatelessWidget {
-  TextBar(
-      {@required this.hintTitle,
-      @required this.valueChange,
-      @required this.keyType,
-      this.controll,
-      this.err,
-      this.max,
-      this.hintEdit,
-      @required this.focus,
-      this.notSuggest,
-      this.suggestList,
-      this.onClickSuggestion,
-      this.callBack,
-      this.builder});
+  TextBar({
+    @required this.hintTitle,
+    @required this.valueChange,
+    @required this.keyType,
+    this.controll,
+    this.err,
+    this.max,
+    this.hintEdit,
+    @required this.focus,
+    this.notSuggest,
+    this.suggestList,
+    this.onClickSuggestion,
+    this.callBack,
+    this.builder,
+    @required this.password,
+  });
 
   final String hintTitle;
   final Function valueChange;
@@ -30,6 +32,7 @@ class TextBar extends StatelessWidget {
   final Function onClickSuggestion;
   final Function callBack;
   final Function builder;
+  final bool password;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class TextBar extends StatelessWidget {
         ? Padding(
             padding: const EdgeInsets.all(14.0),
             child: TextField(
+              obscureText: password,
               controller: controll,
               maxLines: max,
               autofocus: focus,

@@ -107,6 +107,7 @@ class _CalculatorPriceState extends State<CalculatorPrice> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextBar(
+                  password: false,
                   err: _pricemiss
                       ? 'Sila masukkan jumlah harga spareparts'
                       : null,

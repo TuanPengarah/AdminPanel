@@ -1,16 +1,19 @@
-# services_form
+# Af.fix Admin
+Sebelum itu saya ingin mengucapkan ribuan terima kasih kepada Allah SWT dan semua rakan-rakan yang telah memberi saya tunjuk ajar dan peluang untuk saya menceburi dalam bidang pembangunan aplikasi ini.  Aplikasi ini berfungsi/bertujuan untuk menguruskan segala sistem pengurusan di syarikat Assaff.fix(Af.fix) iaitu syarikat yang menyediakan perkhidmatan membaiki smartphone dan juga menghasilkan 'Tracking Repair Number' atau dikenali sebagai 'MyRepair ID' untuk kegunaan pelanggan.
 
-A new Flutter application.
+# Kelebihan Aplikasi
+-Buka Job Sheet pelanggan, print Job Sheet dan resit waranti menggunakan printer bluetooth, key-In Spareparts, Cash Flow, buka resit waranti, generate email kepada pelanggan setelah buka Job Sheet baru, generate PDF untuk soft copy, Price List dan macam2 lagi fungsi..(lol)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Untuk Permulaan
 
-A few resources to get you started if this is your first Flutter project:
+Projek ini dibangunkan oleh Akid Fikri Azhar yang menggunakan rangka kerja (Framework) Flutter.
+
+Antara bahan yang perlu dipelajari untuk menggunakan Flutter:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Pada sesiapa yang menjinak-jinak untuk menggunakan Flutter, boleh lihat
+[pada dokumentasi ini](https://flutter.dev/docs), yang mengandungi tutorial,
+sampel, dan tunjuk ajar untuk menghasilkan mobile development, dan rujukan penuh API.

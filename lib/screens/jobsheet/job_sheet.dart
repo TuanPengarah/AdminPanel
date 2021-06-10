@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services_form/brain/smartphone_suggestion.dart';
@@ -323,11 +324,20 @@ class _JobSheetState extends State<JobSheet> {
 
   String _getUserID;
   Future<void> createUser() async {
+    FirebaseApp app = await Firebase.initializeApp(
+        name: 'Secondary', options: Firebase.app().options);
+    if (email.text.isEmpty) {
+      String _username = nama.text;
+      email.text = _username.split(" ").join("").toLowerCase() + '@email.com';
+      print(_username);
+    }
     try {
-      UserCredential auth = await FirebaseAuth.instance
+      UserCredential auth = await FirebaseAuth.instanceFor(app: app)
           .createUserWithEmailAndPassword(
               email: email.text, password: '123456');
+
       final User user = auth.user;
+      await user.updateProfile(displayName: nama.text);
       _getUserID = user.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -341,7 +351,7 @@ class _JobSheetState extends State<JobSheet> {
   }
 
 ////Tambah ke database////
-  addData() async {
+  Future<void> addData() async {
     String _docid;
     widget.editCustomer == false
         ? _docid = _getUserID
@@ -367,6 +377,8 @@ class _JobSheetState extends State<JobSheet> {
       'Harga': int.parse(angg.text),
       'Remarks': '*${remarks.text}',
       'Tarikh': _tarikh,
+      'Tarikh Waranti': '-',
+      'isWarranty': false,
       'Technician': 'Akid Fikri Azhar',
       'Status': 'Belum Selesai',
       'timeStamp': FieldValue.serverTimestamp(),
@@ -443,9 +455,10 @@ class _JobSheetState extends State<JobSheet> {
       child: Text('Pasti'),
       onPressed: () async {
         if (widget.editCustomer == false) await createUser();
-        addData();
-        Navigator.pop(context);
-        _printConfirmation(context);
+        await addData().then((value) {
+          Navigator.pop(context);
+          _printConfirmation(context);
+        });
       },
     );
 

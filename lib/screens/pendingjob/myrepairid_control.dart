@@ -99,7 +99,7 @@ class _EditMyRepairIDState extends State<EditMyRepairID> {
     } else if (crepairLog.text == 'Memulakan proses membaiki') {
       _value = 21;
     } else if (crepairLog.text ==
-        'Menyelaraskan sparepart baru kepada peranti anda') {
+        'Memasang sparepart baru kepada peranti anda') {
       _value = 50;
     } else if (crepairLog.text ==
         'Semua alat sparepart baru berfungsi dengan baik') {

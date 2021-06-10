@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
@@ -19,6 +20,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   String _result = '...';
+  final _currentUser = FirebaseAuth.instance.currentUser;
 
   filePicker(String location) async {
     _result = await FilePicker.getFilePath(
@@ -146,7 +148,7 @@ class _SettingsState extends State<Settings> {
             tiles: [
               SettingsTile(
                 title: 'Email pengurus',
-                subtitle: 'akidfikriazhar@gmail.com',
+                subtitle: '${_currentUser.email}',
                 leading: Icon(Icons.email),
                 onPressed: (value) {},
               ),

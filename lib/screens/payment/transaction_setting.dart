@@ -88,6 +88,8 @@ class _TransactionSettingState extends State<TransactionSetting> {
 
     //UPDATE STATU PADA REPAIR HISTORY
     Map<String, dynamic> updateRH = {
+      'isWarranty': true,
+      'Tarikh Waranti': '$_tempohWaranti',
       'Status': 'Selesai',
       'Harga': int.parse(_cCash.text),
     };

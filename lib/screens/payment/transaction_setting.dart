@@ -71,7 +71,7 @@ class _TransactionSettingState extends State<TransactionSetting> {
     }
   }
 
-  _updateDatabase() {
+  Future<void> _updateDatabase() async {
     //BUANG LIST SPAREPART YANG TELAH PAKAI
     if (_uidSpareparts != null) {
       FirebaseDatabase.instance
@@ -81,10 +81,10 @@ class _TransactionSettingState extends State<TransactionSetting> {
           .remove();
     }
     //UPDATE STATUS isPayment PADA MYREPAIR ID
-    FirebaseFirestore.instance
-        .collection('MyrepairID')
-        .doc(widget.mid)
-        .update({'isPayment': true});
+    final addMySID =
+        FirebaseFirestore.instance.collection('MyrepairID').doc(widget.mid);
+
+    await addMySID.update({'isPayment': true});
 
     //UPDATE STATU PADA REPAIR HISTORY
     Map<String, dynamic> updateRH = {
@@ -93,12 +93,13 @@ class _TransactionSettingState extends State<TransactionSetting> {
       'Status': 'Selesai',
       'Harga': int.parse(_cCash.text),
     };
-    FirebaseFirestore.instance
+
+    final addRepairHistory = FirebaseFirestore.instance
         .collection('customer')
         .doc(widget.uid)
         .collection('repair history')
-        .doc(widget.mid)
-        .update(updateRH);
+        .doc(widget.mid);
+    await addRepairHistory.update(updateRH);
 
     // //TAMBAH DOC PADA CASHFLOW
     // Map<String, dynamic> cashFlow = {
@@ -247,28 +248,29 @@ class _TransactionSettingState extends State<TransactionSetting> {
     );
     Widget continueButton = TextButton(
       child: Text('Pasti'),
-      onPressed: () {
-        _updateDatabase();
-        _localCF();
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => PaymentsCompleted(
-              mid: widget.mid,
-              nama: widget.nama,
-              model: widget.model,
-              noPhone: widget.noPhone,
-              warantiStart: _tarikhSekarang,
-              warantiAkhir: _tempohWaranti,
-              harga: _cCash.text,
-              kerosakkan: widget.kerosakkan,
-              tukarParts: _titleSpareparts,
-              warantiText: '$_hariWaranti $_hariBulan',
+      onPressed: () async {
+        await _updateDatabase().then((value) {
+          _localCF();
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => PaymentsCompleted(
+                mid: widget.mid,
+                nama: widget.nama,
+                model: widget.model,
+                noPhone: widget.noPhone,
+                warantiStart: _tarikhSekarang,
+                warantiAkhir: _tempohWaranti,
+                harga: _cCash.text,
+                kerosakkan: widget.kerosakkan,
+                tukarParts: _titleSpareparts,
+                warantiText: '$_hariWaranti $_hariBulan',
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
 

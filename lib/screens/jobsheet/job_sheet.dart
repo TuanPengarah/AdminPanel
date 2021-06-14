@@ -377,7 +377,7 @@ class _JobSheetState extends State<JobSheet> {
       'Harga': int.parse(angg.text),
       'Remarks': '*${remarks.text}',
       'Tarikh': _tarikh,
-      'Tarikh Waranti': '-',
+      'Tarikh Waranti': _tarikh,
       'isWarranty': false,
       'Technician': 'Akid Fikri Azhar',
       'Status': 'Belum Selesai',

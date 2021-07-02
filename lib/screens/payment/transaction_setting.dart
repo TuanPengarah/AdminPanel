@@ -101,22 +101,20 @@ class _TransactionSettingState extends State<TransactionSetting> {
         .doc(widget.mid);
     await addRepairHistory.update(updateRH);
 
-    // //TAMBAH DOC PADA CASHFLOW
-    // Map<String, dynamic> cashFlow = {
-    //   'Nama': '${widget.nama}',
-    //   'Model': '${widget.model}',
-    //   'Repair': '$_titleSpareparts',
-    //   'Harga': int.parse(_cCash.text),
-    //   'Harga Supplier': _hargaSupplier,
-    //   'Waranti': '$_hariWaranti $_hariBulan',
-    //   'Waranti Mula': '$_tarikhSekarang',
-    //   'Waranti Akhir': '$_tempohWaranti',
-    // };
+    //tambah points
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('customer').doc(widget.uid);
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snap = await transaction.get(documentReference);
 
-    // FirebaseFirestore.instance
-    //     .collection('cashFlow')
-    //     .doc(widget.mid)
-    //     .set(cashFlow);
+      if (!snap.exists) {
+        throw Exception("User does not exist!");
+      }
+
+      int newPoints = snap.get('Points');
+
+      transaction.update(documentReference, {'Points': newPoints + 10});
+    });
   }
 
   @override

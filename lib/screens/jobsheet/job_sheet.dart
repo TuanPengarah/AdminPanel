@@ -405,7 +405,6 @@ class _JobSheetState extends State<JobSheet> {
     Map<String, dynamic> userData = {
       'Tarikh': _tarikh,
       'Nama': '${nama.text}',
-      // 'Points': 10,
       'No Phone': '${phone.text}',
       'Email': '${email.text}',
     };
@@ -441,20 +440,26 @@ class _JobSheetState extends State<JobSheet> {
     }
 
     //tambah point
+    if (widget.editCustomer == true) {
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.collection('customer').doc(widget.passUID);
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(documentReference);
 
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('customer').doc(widget.passUID);
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      DocumentSnapshot snap = await transaction.get(documentReference);
+        if (!snap.exists) {
+          throw Exception("User does not exist!");
+        }
 
-      if (!snap.exists) {
-        throw Exception("User does not exist!");
-      }
+        int newPoints = snap.get('Points');
 
-      int newPoints = snap.get('Points');
-
-      transaction.update(documentReference, {'Points': newPoints + 10});
-    });
+        transaction.update(documentReference, {'Points': newPoints + 10});
+      });
+    } else {
+      FirebaseFirestore.instance
+          .collection('customer')
+          .doc(_getUserID)
+          .update({'Points': 1000});
+    }
   }
 
   showAlertDialog(BuildContext context) {

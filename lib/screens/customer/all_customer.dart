@@ -148,47 +148,66 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                 ),
         ],
       ),
-      body: Container(
-          child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: _resultList.length,
-              itemBuilder: (BuildContext context, int i) {
-                var document = _resultList[i];
-                return ListTile(
-                  leading: Hero(
-                    tag: document['UID'],
-                    child: AvatarLetter(
-                      textColor: Colors.white,
-                      numberLetters: 2,
-                      fontSize: 15,
-                      upperCase: true,
-                      letterType: LetterType.Circular,
-                      text: document['Nama'],
-                      backgroundColor: Colors.blueGrey,
-                      backgroundColorHex: null,
-                      textColorHex: null,
-                    ),
-                  ),
-                  title: Text('${document['Nama'].toString().toUpperCase()}'),
-                  subtitle: Text('${document['No Phone']}'),
-                  onTap: () {
-                    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                        systemNavigationBarColor: Colors.blueGrey,
-                        systemNavigationBarIconBrightness: Brightness.light));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => NewCustomerDetails(
-                          nama: document['Nama'].toUpperCase(),
-                          databaseUID: document['UID'],
-                          nomborTelefon: document['No Phone'],
-                          email: document['Email'],
+      body: _resultList.length <= 0
+          ? Container(
+              child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: _resultList.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    var document = _resultList[i];
+                    return ListTile(
+                      leading: Hero(
+                        tag: document['UID'],
+                        child: AvatarLetter(
+                          textColor: Colors.white,
+                          numberLetters: 2,
+                          fontSize: 15,
+                          upperCase: true,
+                          letterType: LetterType.Circular,
+                          text: document['Nama'],
+                          backgroundColor: Colors.blueGrey,
+                          backgroundColorHex: null,
+                          textColorHex: null,
                         ),
                       ),
+                      title:
+                          Text('${document['Nama'].toString().toUpperCase()}'),
+                      subtitle: Text('${document['No Phone']}'),
+                      onTap: () {
+                        SystemChrome.setSystemUIOverlayStyle(
+                            SystemUiOverlayStyle(
+                                systemNavigationBarColor: Colors.blueGrey,
+                                systemNavigationBarIconBrightness:
+                                    Brightness.light));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => NewCustomerDetails(
+                              nama: document['Nama'].toUpperCase(),
+                              databaseUID: document['UID'],
+                              nomborTelefon: document['No Phone'],
+                              email: document['Email'],
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              })),
+                  }))
+          : Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.money_off_sharp, color: Colors.grey, size: 99),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    'Takde sales tuan',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              ],
+            )),
     );
   }
 }

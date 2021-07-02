@@ -39,7 +39,7 @@ class BankCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'ASSAF ENTERPRISE',
+                    'ASSAFF ENTERPRISE',
                     style: TextStyle(
                       color: Colors.white60,
                       fontSize: 15,

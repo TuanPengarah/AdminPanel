@@ -35,14 +35,14 @@ dependencies:
   image: ^2.1.4
   double_back_to_close: ^1.0.2+mit
   firebase_database:
-  cloud_firestore: ^1.0.3
+  cloud_firestore: ^2.3.0
   firebase_core: ^1.0.2
   native_contact_picker: ^0.0.6
   avatar_letter: ^1.0.1
   url_launcher:
   intl: 
   flutter_slidable:
-  flutter_typeahead: ^3.1.0
+  flutter_typeahead: ^3.1.3
   adaptive_theme: ^1.1.0
   oktoast: ^3.0.0
   flutter_fluid_slider: ^1.0.3
@@ -69,13 +69,13 @@ dependencies:
   assets_audio_player:
   firebase_auth: ^1.0.1
   quick_actions: ^0.6.0
-  modal_progress_hud: ^0.1.3
+  modal_progress_hud: ^0.1.3  
 
 flutter_native_splash:
   color: "#ffffff"
-  image: "assets/logoBlack.png"
+  image: "assets/splash_dark.png"
   color_dark: "#1a1a1a"
-  image_dark: "assets/logo.png"
+  image_dark: "assets/splash_light.png"
   android: true
   ios: true
 

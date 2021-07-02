@@ -177,7 +177,7 @@ class _JobSheetState extends State<JobSheet> {
                         ),
                       ),
                       AutoSizeText(
-                        'MyRepair Identification: $uid',
+                        'MyStatus Identification: $uid',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -205,6 +205,7 @@ class _JobSheetState extends State<JobSheet> {
                         controll: nama,
                         err: namamiss ? 'Sila masukkan nama customer' : null,
                         hintTitle: 'Nama Customer',
+                        onEnter: TextInputAction.next,
                         valueChange: (namav) {
                           if (nama.text != namav.toUpperCase())
                             nama.value =
@@ -220,6 +221,7 @@ class _JobSheetState extends State<JobSheet> {
                             ? 'Sila masukkan nombor telefon customer'
                             : null,
                         hintTitle: 'Nombor untuk Dihubungi',
+                        onEnter: TextInputAction.next,
                         valueChange: (nofon) {},
                         keyType: TextInputType.phone,
                       ),
@@ -229,11 +231,13 @@ class _JobSheetState extends State<JobSheet> {
                         controll: email,
                         hintTitle: 'Email *Optional',
                         valueChange: (emailv) {},
+                        onEnter: TextInputAction.next,
                         keyType: TextInputType.emailAddress,
                       ),
                       TextBar(
                         password: false,
                         notSuggest: true,
+                        onEnter: TextInputAction.next,
                         onClickSuggestion: (suggestion) {
                           model.text = suggestion.toString().toUpperCase();
                         },
@@ -264,6 +268,7 @@ class _JobSheetState extends State<JobSheet> {
                         focus: false,
                         controll: pass,
                         hintTitle: 'Password Smartphone',
+                        onEnter: TextInputAction.next,
                         valueChange: (passv) {},
                         keyType: TextInputType.text,
                       ),
@@ -273,6 +278,7 @@ class _JobSheetState extends State<JobSheet> {
                         onClickSuggestion: (suggestion) {
                           damage.text = suggestion.toString().toUpperCase();
                         },
+                        onEnter: TextInputAction.next,
                         callBack: (pattern) {
                           return PartsSuggestion.getSuggestions(pattern);
                         },
@@ -300,6 +306,7 @@ class _JobSheetState extends State<JobSheet> {
                         controll: angg,
                         hintTitle: 'Anggaran harga',
                         valueChange: (pricev) {},
+                        onEnter: TextInputAction.next,
                         keyType: TextInputType.number,
                       ),
                       TextBar(
@@ -309,6 +316,7 @@ class _JobSheetState extends State<JobSheet> {
                         hintTitle: '*Remarks',
                         max: 5,
                         valueChange: (specific) {},
+                        onEnter: TextInputAction.next,
                         keyType: TextInputType.multiline,
                       ),
                     ],
@@ -328,7 +336,7 @@ class _JobSheetState extends State<JobSheet> {
         name: 'Secondary', options: Firebase.app().options);
     if (email.text.isEmpty) {
       String _username = nama.text;
-      email.text = _username.split(" ").join("").toLowerCase() + '@email.com';
+      email.text = _username.split(" ").join("").toLowerCase() + '@assaff.com';
       print(_username);
     }
     try {
@@ -361,13 +369,6 @@ class _JobSheetState extends State<JobSheet> {
 //convert tarikh dari peranti ke database
     String _tarikh = tarikh().toString();
 
-//fungsi search (LOOP Method)
-    List<String> splitList = nama.text.split(" ");
-    List<String> indexList = [];
-    for (int i = 0; i < splitList.length; i++) {
-      for (int y = 1; y < splitList[i].length + 1; y++)
-        indexList.add(splitList[i].substring(0, y).toLowerCase());
-    }
 //repair history berformat JSON
     Map<String, dynamic> repairHistory = {
       'MID': '${uid.toString()}',
@@ -404,9 +405,9 @@ class _JobSheetState extends State<JobSheet> {
     Map<String, dynamic> userData = {
       'Tarikh': _tarikh,
       'Nama': '${nama.text}',
+      // 'Points': 10,
       'No Phone': '${phone.text}',
       'Email': '${email.text}',
-      'Search Index': indexList,
     };
     try {
       //Tambah data collection (Customer Bio) ke database
@@ -415,7 +416,7 @@ class _JobSheetState extends State<JobSheet> {
 
       await collectionReference
           .doc(_docid)
-          .set(userData)
+          .update(userData)
           .then((value) => showToast(
               'Job Sheet berjaya di masukkan ke database',
               position: ToastPosition.bottom))
@@ -438,6 +439,22 @@ class _JobSheetState extends State<JobSheet> {
     } catch (e) {
       print(e);
     }
+
+    //tambah point
+
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('customer').doc(widget.passUID);
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snap = await transaction.get(documentReference);
+
+      if (!snap.exists) {
+        throw Exception("User does not exist!");
+      }
+
+      int newPoints = snap.get('Points');
+
+      transaction.update(documentReference, {'Points': newPoints + 10});
+    });
   }
 
   showAlertDialog(BuildContext context) {

@@ -155,7 +155,7 @@ class _CashFlowHomeState extends State<CashFlowHome> with AfterLayoutMixin {
                         title: 'Salin',
                         click: () {
                           Share.share(
-                              'ASSAF ENTERPRISE\n562021651202\nMaybank');
+                              'ASSAFF ENTERPRISE\n562021651202\nMaybank');
                         },
                       ),
                       MoreAction(

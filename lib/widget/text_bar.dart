@@ -17,6 +17,7 @@ class TextBar extends StatelessWidget {
     this.callBack,
     this.builder,
     @required this.password,
+    this.onEnter,
   });
 
   final String hintTitle;
@@ -33,6 +34,7 @@ class TextBar extends StatelessWidget {
   final Function callBack;
   final Function builder;
   final bool password;
+  final TextInputAction onEnter;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class TextBar extends StatelessWidget {
               autofocus: focus,
               keyboardType: keyType,
               onChanged: valueChange,
+              textInputAction: onEnter ?? TextInputAction.next,
               // textAlign: TextAlign.center,
               decoration: InputDecoration(
                 hintText: hintEdit,
@@ -89,6 +92,7 @@ class TextBar extends StatelessWidget {
                   autofocus: focus,
                   keyboardType: keyType,
                   onChanged: valueChange,
+                  textInputAction: onEnter ?? TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: hintEdit,
                     errorText: err,

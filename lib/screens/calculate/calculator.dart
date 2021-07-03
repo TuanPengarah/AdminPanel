@@ -116,6 +116,7 @@ class _CalculatorPriceState extends State<CalculatorPrice> {
                   valueChange: (newValue) {},
                   keyType: TextInputType.number,
                   focus: true,
+                  onEnter: TextInputAction.next,
                 ),
                 Row(
                   children: [

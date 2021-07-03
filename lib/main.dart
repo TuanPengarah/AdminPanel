@@ -26,6 +26,7 @@ import 'screens/cashflow/cashflow_home.dart';
 import 'screens/pendingjob/pending_job.dart';
 import 'brain/balance_provider.dart';
 
+FirebaseApp app;
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -34,6 +35,9 @@ void main() async {
   ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  app = await Firebase.initializeApp(
+      name: 'Secondary', options: Firebase.app().options);
   Provider.debugCheckInvalidValueType = null;
   // final savedThemeMode = await AdaptiveTheme.getThemeMode();
   runApp(MyApp());

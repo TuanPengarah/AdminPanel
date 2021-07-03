@@ -34,85 +34,87 @@ class _LoginAuthState extends State<LoginAuth> {
       backgroundColor: isDarkMode ? Color(0xff212121) : Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: _loading,
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Hero(
-                  tag: 'logo',
-                  child: Image.asset(
-                    isDarkMode ? 'assets/logo.png' : 'assets/logoBlack.png',
-                    scale: 3.5,
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: 'logo',
+                    child: Image.asset(
+                      isDarkMode ? 'assets/logo.png' : 'assets/logoBlack.png',
+                      scale: 3.5,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 100,
-                ),
-                TextBar(
-                  password: false,
-                  controll: _emailController,
-                  hintTitle: 'Email',
-                  valueChange: (newValue) {},
-                  keyType: TextInputType.emailAddress,
-                  focus: false,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: TextBar(
-                        max: 1,
-                        password: _obsecureText,
-                        controll: _passwordController,
-                        hintTitle: 'Kata laluan',
-                        valueChange: (newValue) {},
-                        keyType: TextInputType.visiblePassword,
-                        focus: false,
+                  SizedBox(
+                    height: 100,
+                  ),
+                  TextBar(
+                    password: false,
+                    controll: _emailController,
+                    hintTitle: 'Email',
+                    valueChange: (newValue) {},
+                    keyType: TextInputType.emailAddress,
+                    focus: false,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: TextBar(
+                          max: 1,
+                          password: _obsecureText,
+                          controll: _passwordController,
+                          hintTitle: 'Kata laluan',
+                          valueChange: (newValue) {},
+                          keyType: TextInputType.visiblePassword,
+                          focus: false,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        icon: Icon(_obsecureText
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        onPressed: () {
+                      Expanded(
+                        child: IconButton(
+                          icon: Icon(_obsecureText
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              _obsecureText = !_obsecureText;
+                            });
+                            print(_obsecureText);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
                           setState(() {
-                            _obsecureText = !_obsecureText;
+                            _loading = true;
                           });
-                          print(_obsecureText);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () async {
-                        setState(() {
-                          _loading = true;
-                        });
-                        await context.read<AuthenticationService>().signIn(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            );
-                        showToast(Provider.of<AuthenticationService>(context,
-                                listen: false)
-                            .error);
+                          await context.read<AuthenticationService>().signIn(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              );
+                          showToast(Provider.of<AuthenticationService>(context,
+                                  listen: false)
+                              .error);
 
-                        setState(() {
-                          _loading = false;
-                        });
-                      },
-                      child: Text('Mari Menuju Kejayaan ->'),
-                    ),
-                  ],
-                )
-              ],
+                          setState(() {
+                            _loading = false;
+                          });
+                        },
+                        child: Text('Mari Menuju Kejayaan ->'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

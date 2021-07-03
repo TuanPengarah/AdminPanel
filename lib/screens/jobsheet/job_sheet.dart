@@ -410,15 +410,25 @@ class _JobSheetState extends State<JobSheet> {
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('customer');
 
-      await collectionReference
-          .doc(_docid)
-          .set(userData)
-          .then((value) => showToast(
-              'Job Sheet berjaya di masukkan ke database',
-              position: ToastPosition.bottom))
-          .catchError((error) => showToast(
-              'Gagal untuk memasuki job sheet ke database: $error',
-              position: ToastPosition.bottom));
+      widget.editCustomer == true
+          ? await collectionReference
+              .doc(_docid)
+              .update(userData)
+              .then((value) => showToast(
+                  'Job Sheet berjaya di masukkan ke database',
+                  position: ToastPosition.bottom))
+              .catchError((error) => showToast(
+                  'Gagal untuk memasuki job sheet ke database: $error',
+                  position: ToastPosition.bottom))
+          : await collectionReference
+              .doc(_docid)
+              .set(userData)
+              .then((value) => showToast(
+                  'Job Sheet berjaya di masukkan ke database',
+                  position: ToastPosition.bottom))
+              .catchError((error) => showToast(
+                  'Gagal untuk memasuki job sheet ke database: $error',
+                  position: ToastPosition.bottom));
 
       //Tambah data sub-collection (Repair History) ke database
       await collectionReference

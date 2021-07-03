@@ -29,7 +29,7 @@ buttomManagement(context) {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Urus Aliran Sistem',
+                  'Pengurusan Sistem',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,

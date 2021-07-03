@@ -4,13 +4,13 @@ import 'package:services_form/widget/card_customer_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
-SliverChildListDelegate profile({
-  String datUID,
-  String noFon,
-  String email,
-  Function addJobsheet,
-  String nama,
-}) {
+SliverChildListDelegate profile(
+    {String datUID,
+    String noFon,
+    String email,
+    Function addJobsheet,
+    String nama,
+    int assaffPoints}) {
   _launchCaller() async {
     final url = "tel:$noFon";
     if (await canLaunch(url)) {
@@ -107,6 +107,17 @@ SliverChildListDelegate profile({
         onPress: () {
           _launchEmail();
         },
+      ),
+      CardsCustomerDetails(
+        longPress: () {
+          Clipboard.setData(
+              new ClipboardData(text: 'Assaff Repair Points: $assaffPoints'));
+          showToast('Copy to clipboard', position: ToastPosition.bottom);
+        },
+        icon: Icons.monetization_on_outlined,
+        title: 'Assaff Repair Points',
+        subtitle: '$assaffPoints',
+        onPress: () {},
       ),
       SizedBox(
         height: 100,

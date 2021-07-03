@@ -103,7 +103,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
             },
           ),
           title: !searchState
-              ? Text('All Customer')
+              ? Text('Pelanggan')
               : TextField(
                   controller: _searchController,
                   autofocus: true,
@@ -177,57 +177,6 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                 ),
               )
             : Container(
-<<<<<<< HEAD
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('customer')
-                      .startAt([_searchController])
-                      .endAt([_searchController + '\uf8ff'])
-                      .orderBy('Nama')
-                      // .where('Search Index', arrayContains: _searchController)
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: Text('Loading jap'),
-                      );
-                    } else if (snapshot.data.docs.isEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.youtube_searched_for,
-                                color: Colors.grey, size: 99),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Text(
-                                'Tak jumpa customer tuan',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    var len = snapshot.data.docs.length;
-                    if (len == 0)
-                      return Column(
-                        children: [
-                          SizedBox(height: 100),
-                          Center(
-                            child: Text("No shops available",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.grey)),
-                          )
-                        ],
-                      );
-                    return ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: snapshot.data.docs.map((document) {
-                        return ListTile(
-                          leading: AvatarLetter(
-=======
                 child: ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemCount: _resultList.length,
@@ -237,7 +186,6 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                         leading: Hero(
                           tag: document['UID'],
                           child: AvatarLetter(
->>>>>>> 15c0f8ba3577d9b7a7480953c267300dcfe01155
                             textColor: Colors.white,
                             numberLetters: 2,
                             fontSize: 15,
@@ -266,6 +214,7 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                                 databaseUID: document['UID'],
                                 nomborTelefon: document['No Phone'],
                                 email: document['Email'],
+                                points: document['Points'],
                               ),
                             ),
                           );

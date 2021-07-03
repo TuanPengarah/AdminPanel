@@ -47,7 +47,7 @@ class _PendingJobState extends State<PendingJob> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'MyRepair ID',
+          'MyStatus ID',
         ),
         brightness: Brightness.dark,
         centerTitle: true,

@@ -11,13 +11,14 @@ class NewCustomerDetails extends StatefulWidget {
   final String databaseUID;
   final String nomborTelefon;
   final String email;
+  final int points;
 
-  NewCustomerDetails({
-    this.nama,
-    this.databaseUID,
-    this.nomborTelefon,
-    this.email,
-  });
+  NewCustomerDetails(
+      {this.nama,
+      this.databaseUID,
+      this.nomborTelefon,
+      this.email,
+      this.points});
 
   @override
   _NewCustomerDetailsState createState() => _NewCustomerDetailsState();
@@ -65,6 +66,7 @@ class _NewCustomerDetailsState extends State<NewCustomerDetails> {
         datUID: widget.databaseUID,
         noFon: widget.nomborTelefon,
         email: widget.email,
+        assaffPoints: widget.points,
         addJobsheet: () {
           Future.delayed(const Duration(milliseconds: 190), () {
             Navigator.push(

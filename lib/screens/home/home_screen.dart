@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: EdgeInsets.only(left: 1.0.h, right: 1.0.h),
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -73,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Hero(
                         tag: 'logo',
                         child: Image.asset(
-                          'assets/logo.png',
-                          scale: 4.8,
+                          'assets/splash_light.png',
+                          scale: 8,
                         ),
                       ),
                     ),

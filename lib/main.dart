@@ -30,8 +30,6 @@ FirebaseApp app;
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    // systemNavigationBarColor:
-    //     Colors.blueGrey,
   ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

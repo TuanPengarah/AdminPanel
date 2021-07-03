@@ -75,7 +75,7 @@ buttomCustomerSheet(context) {
                     Navigator.pushNamed(context, 'pendingjob');
                   },
                   child: Text(
-                    'MyRepair ID (Pending Job)',
+                    'MyStatus ID (Pending Job)',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                   ),

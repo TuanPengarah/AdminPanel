@@ -146,23 +146,34 @@ class _CustomerDatabaseState extends State<CustomerDatabase> {
                       });
                     },
                   ),
+            IconButton(
+              icon: Icon(Icons.refresh),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (c) => CustomerDatabase(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
         body: _resultList.length <= 0
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.person_remove, color: Colors.grey, size: 99),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'Takde customer tuan',
-                        style: TextStyle(color: Colors.grey),
+            ? Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text('Loading Jap, sambil2 tu jom berselawat😄'),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             : Container(

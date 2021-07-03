@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services_form/brain/smartphone_suggestion.dart';
 import 'package:services_form/brain/spareparts_suggestion.dart';
+import 'package:services_form/main.dart';
 import 'package:services_form/widget/text_bar.dart';
 import '../print/print.dart';
 import 'dart:math';
@@ -332,29 +333,25 @@ class _JobSheetState extends State<JobSheet> {
 
   String _getUserID;
   Future<void> createUser() async {
-    FirebaseApp app = await Firebase.initializeApp(
-        name: 'Secondary', options: Firebase.app().options);
-    if (email.text.isEmpty) {
-      String _username = nama.text;
-      email.text = _username.split(" ").join("").toLowerCase() + '@assaff.com';
-      print(_username);
-    }
     try {
-      UserCredential auth = await FirebaseAuth.instanceFor(app: app)
-          .createUserWithEmailAndPassword(
-              email: email.text, password: '123456');
+      app = Firebase.app('Secondary');
+      if (email.text.isEmpty) {
+        String _username = nama.text;
+        email.text =
+            _username.split(" ").join("").toLowerCase() + '@assaff.com';
+        print(_username);
+        UserCredential auth = await FirebaseAuth.instanceFor(app: app)
+            .createUserWithEmailAndPassword(
+                email: email.text, password: '123456');
 
-      final User user = auth.user;
-      await user.updateProfile(displayName: nama.text);
-      _getUserID = user.uid;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        final User user = auth.user;
+        await user.updateProfile(displayName: nama.text);
+        _getUserID = user.uid;
       }
     } catch (e) {
-      print(e);
+      showToast('Error on creating user account: $e',
+          position: ToastPosition.bottom);
+      app = Firebase.app('Secondary');
     }
   }
 
@@ -363,7 +360,6 @@ class _JobSheetState extends State<JobSheet> {
     String _docid;
     widget.editCustomer == false
         ? _docid = _getUserID
-        // 'affix-${midUID.toString()}-${genUID.toString().padLeft(10, '0')}'
         : _docid = widget.passUID;
     pass.text.isEmpty ? pass.text = 'Tiada Password' : pass.text = pass.text;
 //convert tarikh dari peranti ke database
@@ -407,6 +403,7 @@ class _JobSheetState extends State<JobSheet> {
       'Nama': '${nama.text}',
       'No Phone': '${phone.text}',
       'Email': '${email.text}',
+      'UID': _docid,
     };
     try {
       //Tambah data collection (Customer Bio) ke database
@@ -415,7 +412,7 @@ class _JobSheetState extends State<JobSheet> {
 
       await collectionReference
           .doc(_docid)
-          .update(userData)
+          .set(userData)
           .then((value) => showToast(
               'Job Sheet berjaya di masukkan ke database',
               position: ToastPosition.bottom))
@@ -442,7 +439,7 @@ class _JobSheetState extends State<JobSheet> {
     //tambah point
     if (widget.editCustomer == true) {
       DocumentReference documentReference =
-          FirebaseFirestore.instance.collection('customer').doc(widget.passUID);
+          FirebaseFirestore.instance.collection('customer').doc(_docid);
       FirebaseFirestore.instance.runTransaction((transaction) async {
         DocumentSnapshot snap = await transaction.get(documentReference);
 
@@ -454,10 +451,10 @@ class _JobSheetState extends State<JobSheet> {
 
         transaction.update(documentReference, {'Points': newPoints + 10});
       });
-    } else {
+    } else if (widget.editCustomer == false) {
       FirebaseFirestore.instance
           .collection('customer')
-          .doc(_getUserID)
+          .doc(_docid)
           .update({'Points': 1000});
     }
   }
